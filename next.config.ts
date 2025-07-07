@@ -5,26 +5,19 @@ const nextConfig: NextConfig = {
   redirects: async () => [
     {
       source: "/",
-      destination: "/home",
+      destination: "/vi-VN/home",
+      permanent: true,
+      locale: false,
+    },
+    {
+      source: "/:path((?!vi-VN|en-US|front-pages|favicon\\.ico|sw\\.js|images).*)",
+      destination: "/vi-VN/:path",
       permanent: true,
       locale: false,
     },
     {
       source: "/:locale(vi-VN|en-US)",
       destination: "/:locale/home",
-      permanent: true,
-      locale: false,
-    },
-    {
-      source:
-        "/((?!vi-VN|en-US|front-pages|favicon\\.ico|sw\\.js|images(?:/.*)?$).*)",
-      destination: "/vi-VN/:path*",
-      has: [
-        {
-          type: "query",
-          key: "path",
-        },
-      ],
       permanent: true,
       locale: false,
     },
