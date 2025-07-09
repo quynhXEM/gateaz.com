@@ -1,10 +1,10 @@
-"use client";
+"use client"
 
-import type React from "react";
+import type React from "react"
 
-import { useState } from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useState } from "react"
+import Link from "next/link"
+import { usePathname } from "next/navigation"
 import {
   Home,
   Wallet,
@@ -28,20 +28,21 @@ import {
   Plus,
   Heart,
   BookOpen,
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { cn } from "@/lib/utils";
-import { useTheme } from "next-themes";
-import { Sun, Moon } from "lucide-react";
+  Handshake,
+} from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
+import { cn } from "@/lib/utils"
+import { useTheme } from "next-themes"
+import { Sun, Moon } from "lucide-react"
 
 const navItems = [
   {
     section: "Menu chính",
     items: [
-      { href: "/", label: "Trang chủ", icon: Home },
+      { href: "/home", label: "Trang chủ", icon: Home },
       { href: "/wallet", label: "Ví của tôi", icon: Wallet },
-      { href: "/add", label: "Thêm mới", icon: Plus },
+      { href: "/invite-user", label: "Thêm mới", icon: Handshake },
     ],
   },
   {
@@ -77,28 +78,24 @@ const navItems = [
       { href: "/settings", label: "Cài đặt", icon: Settings },
     ],
   },
-];
+]
 
 export function Navigation({ children }: { children: React.ReactNode }) {
-  const [open, setOpen] = useState(false);
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const pathname = usePathname();
-  const { theme, setTheme } = useTheme();
-  const [showFloatingMenu, setShowFloatingMenu] = useState(false);
+  const [open, setOpen] = useState(false)
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
+  const pathname = usePathname()
+  const { theme, setTheme } = useTheme()
+  const [showFloatingMenu, setShowFloatingMenu] = useState(false)
 
   const NavContent = ({ collapsed = false }: { collapsed?: boolean }) => (
     <div className="space-y-6">
       {navItems.map((section) => (
         <div key={section.section}>
-          {!collapsed && (
-            <h3 className="text-sm font-medium text-muted-foreground mb-3 px-3">
-              {section.section}
-            </h3>
-          )}
+          {!collapsed && <h3 className="text-sm font-medium text-muted-foreground mb-3 px-3">{section.section}</h3>}
           <div className="space-y-1">
             {section.items.map((item) => {
-              const Icon = item.icon;
-              const isActive = pathname === item.href;
+              const Icon = item.icon
+              const isActive = pathname.endsWith(item.href)
               return (
                 <Link
                   key={item.href}
@@ -106,30 +103,21 @@ export function Navigation({ children }: { children: React.ReactNode }) {
                   onClick={() => setOpen(false)}
                   className={cn(
                     "flex items-center rounded-lg transition-colors text-sm px-3",
-                    collapsed
-                      ? "justify-center p-3 mx-1"
-                      : "space-x-3 px-3 py-2",
-                    isActive
-                      ? "bg-primary text-primary-foreground"
-                      : "hover:bg-accent hover:text-accent-foreground"
+                    collapsed ? "justify-center p-3 mx-1" : "space-x-3 px-3 py-2",
+                    isActive ? "bg-primary text-primary-foreground" : "hover:bg-accent hover:text-accent-foreground",
                   )}
                   title={collapsed ? item.label : undefined}
                 >
-                  <Icon
-                    className={cn(
-                      "h-4 w-4 mx-3",
-                      collapsed ? "flex-shrink-0" : ""
-                    )}
-                  />
+                  <Icon className={cn("h-4 w-4 mx-3", collapsed ? "flex-shrink-0" : "")} />
                   {!collapsed && <span className="truncate">{item.label}</span>}
                 </Link>
-              );
+              )
             })}
           </div>
         </div>
       ))}
     </div>
-  );
+  )
 
   return (
     <div className="min-h-screen bg-background pt-16">
@@ -137,17 +125,13 @@ export function Navigation({ children }: { children: React.ReactNode }) {
       <header className="fixed top-0 left-0 right-0 z-50 border-b bg-card p-4 flex items-center">
         <Sheet open={open} onOpenChange={setOpen}>
           <SheetTrigger asChild>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="mr-3 lg:hidden"
-              onClick={() => setOpen(true)}
-            >
+            <Button variant="ghost" size="icon" className="mr-3 lg:hidden" onClick={() => setOpen(true)}>
               <Menu className="h-6 w-6" />
             </Button>
           </SheetTrigger>
           <SheetContent side="left" className="w-64 lg:hidden">
-            <div className="py-6 h-full overflow-y-auto scrollbar-hide">
+            <SheetTitle/>
+            <div className="p-4 h-full overflow-y-auto scrollbar-hide">
               <NavContent />
             </div>
           </SheetContent>
@@ -180,7 +164,7 @@ export function Navigation({ children }: { children: React.ReactNode }) {
         <div
           className={cn(
             "border-r bg-card fixed h-full transition-all duration-300",
-            sidebarCollapsed ? "w-16" : "w-64"
+            sidebarCollapsed ? "w-16" : "w-64",
           )}
         >
           {/* Header với logo */}
@@ -192,9 +176,7 @@ export function Navigation({ children }: { children: React.ReactNode }) {
               {!sidebarCollapsed && (
                 <div>
                   <h1 className="text-lg font-bold">Ví Điện Tử</h1>
-                  <p className="text-xs text-muted-foreground">
-                    Thanh toán thông minh
-                  </p>
+                  <p className="text-xs text-muted-foreground">Thanh toán thông minh</p>
                 </div>
               )}
             </div>
@@ -206,12 +188,7 @@ export function Navigation({ children }: { children: React.ReactNode }) {
           </div>
         </div>
 
-        <div
-          className={cn(
-            "flex-1 transition-all duration-300",
-            sidebarCollapsed ? "ml-16" : "ml-64"
-          )}
-        >
+        <div className={cn("flex-1 transition-all duration-300", sidebarCollapsed ? "ml-16" : "ml-64")}>
           <main className="p-6">{children}</main>
         </div>
       </div>
@@ -219,22 +196,17 @@ export function Navigation({ children }: { children: React.ReactNode }) {
       {/* Mobile Layout */}
       <div className="lg:hidden overflow-x-hidden">
         {/* Mobile Content */}
-        <main className="p-4 pb-20 overflow-x-hidden">{children}</main>
+        <main className="p-4 pb-24 overflow-x-hidden">{children}</main>
 
         {/* Mobile Footer Navigation - 5 tabs như trong hình */}
         <div className="fixed bottom-0 left-0 right-0 border-t bg-card">
           <div className="flex items-center justify-around py-2 px-2">
             {/* Home */}
-            <Link
-              href="/"
-              className="flex flex-col items-center space-y-1 px-3 py-2 rounded-lg transition-colors"
-            >
+            <Link href="/" className="flex flex-col items-center space-y-1 px-3 py-2 rounded-lg transition-colors">
               <div
                 className={cn(
                   "w-10 h-10 rounded-xl flex items-center justify-center transition-colors",
-                  pathname === "/"
-                    ? "bg-primary text-white"
-                    : "bg-gray-100 text-muted-foreground hover:bg-gray-200"
+                  pathname === "/" ? "bg-primary text-white" : "bg-gray-100 text-muted-foreground hover:bg-gray-200",
                 )}
               >
                 <Home className="h-5 w-5" />
@@ -242,9 +214,7 @@ export function Navigation({ children }: { children: React.ReactNode }) {
               <span
                 className={cn(
                   "text-xs transition-colors",
-                  pathname === "/"
-                    ? "text-primary font-medium"
-                    : "text-muted-foreground"
+                  pathname === "/" ? "text-primary font-medium" : "text-muted-foreground",
                 )}
               >
                 Home
@@ -261,7 +231,7 @@ export function Navigation({ children }: { children: React.ReactNode }) {
                   "w-10 h-10 rounded-xl flex items-center justify-center transition-colors",
                   pathname === "/favorite"
                     ? "bg-red-500 text-white"
-                    : "bg-gray-100 text-muted-foreground hover:bg-gray-200"
+                    : "bg-gray-100 text-muted-foreground hover:bg-gray-200",
                 )}
               >
                 <Heart className="h-5 w-5" />
@@ -269,9 +239,7 @@ export function Navigation({ children }: { children: React.ReactNode }) {
               <span
                 className={cn(
                   "text-xs transition-colors",
-                  pathname === "/favorite"
-                    ? "text-red-500 font-medium"
-                    : "text-muted-foreground"
+                  pathname === "/favorite" ? "text-red-500 font-medium" : "text-muted-foreground",
                 )}
               >
                 Favorite
@@ -285,13 +253,13 @@ export function Navigation({ children }: { children: React.ReactNode }) {
             >
               <div
                 className={cn(
-                  "w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-200 shadow-lg",
+                  "w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-200 shadow-lg bg-white dark:bg-white",
                   showFloatingMenu
                     ? "bg-primary text-white scale-110 rotate-45"
-                    : "bg-primary/90 text-white hover:bg-primary hover:scale-105"
+                    : "bg-primary text-white hover:bg-primary hover:scale-105",
                 )}
               >
-                <Plus className="h-6 w-6" />
+                <Plus className="h-6 w-6 text-white dark:text-black" />
               </div>
             </div>
 
@@ -299,59 +267,56 @@ export function Navigation({ children }: { children: React.ReactNode }) {
             {showFloatingMenu && (
               <>
                 {/* Background overlay */}
-                <div
-                  className="fixed inset-0 bg-black/20 z-40"
-                  onClick={() => setShowFloatingMenu(false)}
-                />
+                <div className="fixed inset-0 bg-black/20 z-40" onClick={() => setShowFloatingMenu(false)} />
 
                 {/* Floating menu */}
                 <div className="fixed bottom-24 left-1/2 transform -translate-x-1/2 z-50">
-                  <div className="bg-blue-500 rounded-3xl px-6 py-4 shadow-2xl">
+                  <div className="bg-black dark:bg-primary rounded-3xl px-6 py-4 shadow-2xl">
                     <div className="flex items-center space-x-4">
                       <Button
                         onClick={() => {
-                          setShowFloatingMenu(false);
-                          window.location.href = "/transfer";
+                          setShowFloatingMenu(false)
+                          window.location.href = "/invite-user"
                         }}
-                        className="w-12 h-12 bg-white/20 hover:bg-white/30 rounded-xl flex items-center justify-center transition-colors"
+                        className="w-12 h-12 bg-white/20 dark:bg-white hover:bg-white/30 rounded-xl flex items-center justify-center transition-colors"
                       >
-                        <ArrowRightLeft className="h-6 w-6 text-white" />
+                        <Handshake className="h-6 w-6 text-white dark:text-black" />
                       </Button>
                       <Button
                         onClick={() => {
-                          setShowFloatingMenu(false);
-                          window.location.href = "/topup";
+                          setShowFloatingMenu(false)
+                          window.location.href = "/topup"
                         }}
-                        className="w-12 h-12 bg-white/20 hover:bg-white/30 rounded-xl flex items-center justify-center transition-colors"
+                        className="w-12 h-12 bg-white/20 dark:bg-white hover:bg-white/30 rounded-xl flex items-center justify-center transition-colors"
                       >
-                        <Phone className="h-6 w-6 text-white" />
+                        <Phone className="h-6 w-6 text-white dark:text-black" />
                       </Button>
                       <Button
                         onClick={() => {
-                          setShowFloatingMenu(false);
-                          window.location.href = "/bills";
+                          setShowFloatingMenu(false)
+                          window.location.href = "/bills"
                         }}
-                        className="w-12 h-12 bg-white/20 hover:bg-white/30 rounded-xl flex items-center justify-center transition-colors"
+                        className="w-12 h-12 bg-white/20 dark:bg-white hover:bg-white/30 rounded-xl flex items-center justify-center transition-colors"
                       >
-                        <Receipt className="h-6 w-6 text-white" />
+                        <Receipt className="h-6 w-6 text-white dark:text-black" />
                       </Button>
                       <Button
                         onClick={() => {
-                          setShowFloatingMenu(false);
-                          window.location.href = "/flight";
+                          setShowFloatingMenu(false)
+                          window.location.href = "/flight"
                         }}
-                        className="w-12 h-12 bg-white/20 hover:bg-white/30 rounded-xl flex items-center justify-center transition-colors"
+                        className="w-12 h-12 bg-white/20 dark:bg-white hover:bg-white/30 rounded-xl flex items-center justify-center transition-colors"
                       >
-                        <Plane className="h-6 w-6 text-white" />
+                        <Plane className="h-6 w-6 text-white dark:text-black" />
                       </Button>
                       <Button
                         onClick={() => {
-                          setShowFloatingMenu(false);
-                          window.location.href = "/wallet";
+                          setShowFloatingMenu(false)
+                          window.location.href = "/wallet"
                         }}
-                        className="w-12 h-12 bg-white/20 hover:bg-white/30 rounded-xl flex items-center justify-center transition-colors"
+                        className="w-12 h-12 bg-white/20 dark:bg-white hover:bg-white/30 rounded-xl flex items-center justify-center transition-colors"
                       >
-                        <Wallet className="h-6 w-6 text-white" />
+                        <Wallet className="h-6 w-6 text-white dark:text-black" />
                       </Button>
                     </div>
                   </div>
@@ -369,7 +334,7 @@ export function Navigation({ children }: { children: React.ReactNode }) {
                   "w-10 h-10 rounded-xl flex items-center justify-center transition-colors",
                   pathname === "/account"
                     ? "bg-blue-500 text-white"
-                    : "bg-gray-100 text-muted-foreground hover:bg-gray-200"
+                    : "bg-gray-100 text-muted-foreground hover:bg-gray-200",
                 )}
               >
                 <User className="h-5 w-5" />
@@ -377,9 +342,7 @@ export function Navigation({ children }: { children: React.ReactNode }) {
               <span
                 className={cn(
                   "text-xs transition-colors",
-                  pathname === "/account"
-                    ? "text-blue-500 font-medium"
-                    : "text-muted-foreground"
+                  pathname === "/account" ? "text-blue-500 font-medium" : "text-muted-foreground",
                 )}
               >
                 Profile
@@ -396,7 +359,7 @@ export function Navigation({ children }: { children: React.ReactNode }) {
                   "w-10 h-10 rounded-xl flex items-center justify-center transition-colors",
                   pathname === "/course"
                     ? "bg-green-500 text-white"
-                    : "bg-gray-100 text-muted-foreground hover:bg-gray-200"
+                    : "bg-gray-100 text-muted-foreground hover:bg-gray-200",
                 )}
               >
                 <BookOpen className="h-5 w-5" />
@@ -404,9 +367,7 @@ export function Navigation({ children }: { children: React.ReactNode }) {
               <span
                 className={cn(
                   "text-xs transition-colors",
-                  pathname === "/course"
-                    ? "text-green-500 font-medium"
-                    : "text-muted-foreground"
+                  pathname === "/course" ? "text-green-500 font-medium" : "text-muted-foreground",
                 )}
               >
                 Course
@@ -416,5 +377,5 @@ export function Navigation({ children }: { children: React.ReactNode }) {
         </div>
       </div>
     </div>
-  );
+  )
 }
