@@ -1,4 +1,5 @@
-import Home from "@/views/main/Home";
+
+import InviteUserPage from "@/views/main/InviteUser";
 import { getTranslations } from "next-intl/server";
 
 export const generateMetadata = async () => {
@@ -10,5 +11,5 @@ export const generateMetadata = async () => {
 };
 
 export default function HomePage() {
-  return <Home />;
+  return <InviteUserPage />;
 }

@@ -10,7 +10,6 @@ import {
   Wallet,
   Settings,
   Menu,
-  History,
   Phone,
   Plane,
   Building,
@@ -26,9 +25,13 @@ import {
   Languages,
   Globe,
   Mic,
+  Plus,
+  Heart,
+  BookOpen,
+  Handshake,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { cn } from "@/lib/utils"
 import { useTheme } from "next-themes"
 import { Sun, Moon } from "lucide-react"
@@ -37,9 +40,9 @@ const navItems = [
   {
     section: "Menu chính",
     items: [
-      { href: "/", label: "Trang chủ", icon: Home },
+      { href: "/home", label: "Trang chủ", icon: Home },
       { href: "/wallet", label: "Ví của tôi", icon: Wallet },
-      { href: "/history", label: "Lịch sử giao dịch", icon: History },
+      { href: "/invite-user", label: "Thêm mới", icon: Handshake },
     ],
   },
   {
@@ -69,6 +72,8 @@ const navItems = [
     section: "Khác",
     items: [
       { href: "/promotions", label: "Khuyến mãi", icon: Gift },
+      { href: "/favorite", label: "Yêu thích", icon: Heart },
+      { href: "/course", label: "Khóa học", icon: BookOpen },
       { href: "/account", label: "Tài khoản", icon: User },
       { href: "/settings", label: "Cài đặt", icon: Settings },
     ],
@@ -80,6 +85,7 @@ export function Navigation({ children }: { children: React.ReactNode }) {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
   const pathname = usePathname()
   const { theme, setTheme } = useTheme()
+  const [showFloatingMenu, setShowFloatingMenu] = useState(false)
 
   const NavContent = ({ collapsed = false }: { collapsed?: boolean }) => (
     <div className="space-y-6">
@@ -89,7 +95,7 @@ export function Navigation({ children }: { children: React.ReactNode }) {
           <div className="space-y-1">
             {section.items.map((item) => {
               const Icon = item.icon
-              const isActive = pathname === item.href
+              const isActive = pathname.endsWith(item.href)
               return (
                 <Link
                   key={item.href}
@@ -124,7 +130,8 @@ export function Navigation({ children }: { children: React.ReactNode }) {
             </Button>
           </SheetTrigger>
           <SheetContent side="left" className="w-64 lg:hidden">
-            <div className="py-6 h-full overflow-y-auto scrollbar-hide">
+            <SheetTitle/>
+            <div className="p-4 h-full overflow-y-auto scrollbar-hide">
               <NavContent />
             </div>
           </SheetContent>
@@ -188,63 +195,183 @@ export function Navigation({ children }: { children: React.ReactNode }) {
 
       {/* Mobile Layout */}
       <div className="lg:hidden overflow-x-hidden">
-        {/* Mobile Header */}
-
         {/* Mobile Content */}
-        <main className="p-4 pb-20 overflow-x-hidden">{children}</main>
+        <main className="p-4 pb-24 overflow-x-hidden">{children}</main>
 
-        {/* Mobile Footer Navigation */}
+        {/* Mobile Footer Navigation - 5 tabs như trong hình */}
         <div className="fixed bottom-0 left-0 right-0 border-t bg-card">
-          <div className="flex justify-around py-2">
-            <Link
-              href="/"
-              className={cn(
-                "flex flex-col items-center space-y-1 px-3 py-2 rounded-lg transition-colors",
-                pathname === "/" ? "text-primary" : "text-muted-foreground hover:text-foreground",
-              )}
-            >
-              <Home className="h-5 w-5" />
-              <span className="text-xs">Trang chủ</span>
+          <div className="flex items-center justify-around py-2 px-2">
+            {/* Home */}
+            <Link href="/" className="flex flex-col items-center space-y-1 px-3 py-2 rounded-lg transition-colors">
+              <div
+                className={cn(
+                  "w-10 h-10 rounded-xl flex items-center justify-center transition-colors",
+                  pathname === "/" ? "bg-primary text-white" : "bg-gray-100 text-muted-foreground hover:bg-gray-200",
+                )}
+              >
+                <Home className="h-5 w-5" />
+              </div>
+              <span
+                className={cn(
+                  "text-xs transition-colors",
+                  pathname === "/" ? "text-primary font-medium" : "text-muted-foreground",
+                )}
+              >
+                Home
+              </span>
             </Link>
+
+            {/* Favorite */}
             <Link
-              href="/wallet"
-              className={cn(
-                "flex flex-col items-center space-y-1 px-3 py-2 rounded-lg transition-colors",
-                pathname === "/wallet" ? "text-primary" : "text-muted-foreground hover:text-foreground",
-              )}
+              href="/favorite"
+              className="flex flex-col items-center space-y-1 px-3 py-2 rounded-lg transition-colors"
             >
-              <Wallet className="h-5 w-5" />
-              <span className="text-xs">Ví</span>
+              <div
+                className={cn(
+                  "w-10 h-10 rounded-xl flex items-center justify-center transition-colors",
+                  pathname === "/favorite"
+                    ? "bg-red-500 text-white"
+                    : "bg-gray-100 text-muted-foreground hover:bg-gray-200",
+                )}
+              >
+                <Heart className="h-5 w-5" />
+              </div>
+              <span
+                className={cn(
+                  "text-xs transition-colors",
+                  pathname === "/favorite" ? "text-red-500 font-medium" : "text-muted-foreground",
+                )}
+              >
+                Favorite
+              </span>
             </Link>
-            <Link
-              href="/history"
-              className={cn(
-                "flex flex-col items-center space-y-1 px-3 py-2 rounded-lg transition-colors",
-                pathname === "/history" ? "text-primary" : "text-muted-foreground hover:text-foreground",
-              )}
+
+            {/* Center Add Button - Prominent */}
+            <div
+              onClick={() => setShowFloatingMenu(!showFloatingMenu)}
+              className="flex flex-col items-center space-y-1 px-3 py-2 rounded-lg transition-colors"
             >
-              <History className="h-5 w-5" />
-              <span className="text-xs">Lịch sử</span>
-            </Link>
-            <Link
-              href="/promotions"
-              className={cn(
-                "flex flex-col items-center space-y-1 px-3 py-2 rounded-lg transition-colors",
-                pathname === "/promotions" ? "text-primary" : "text-muted-foreground hover:text-foreground",
-              )}
-            >
-              <Gift className="h-5 w-5" />
-              <span className="text-xs">Khuyến mãi</span>
-            </Link>
+              <div
+                className={cn(
+                  "w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-200 shadow-lg bg-white dark:bg-white",
+                  showFloatingMenu
+                    ? "bg-primary text-white scale-110 rotate-45"
+                    : "bg-primary text-white hover:bg-primary hover:scale-105",
+                )}
+              >
+                <Plus className="h-6 w-6 text-white dark:text-black" />
+              </div>
+            </div>
+
+            {/* Floating Menu Overlay */}
+            {showFloatingMenu && (
+              <>
+                {/* Background overlay */}
+                <div className="fixed inset-0 bg-black/20 z-40" onClick={() => setShowFloatingMenu(false)} />
+
+                {/* Floating menu */}
+                <div className="fixed bottom-24 left-1/2 transform -translate-x-1/2 z-50">
+                  <div className="bg-black dark:bg-primary rounded-3xl px-6 py-4 shadow-2xl">
+                    <div className="flex items-center space-x-4">
+                      <Button
+                        onClick={() => {
+                          setShowFloatingMenu(false)
+                          window.location.href = "/invite-user"
+                        }}
+                        className="w-12 h-12 bg-white/20 dark:bg-white hover:bg-white/30 rounded-xl flex items-center justify-center transition-colors"
+                      >
+                        <Handshake className="h-6 w-6 text-white dark:text-black" />
+                      </Button>
+                      <Button
+                        onClick={() => {
+                          setShowFloatingMenu(false)
+                          window.location.href = "/topup"
+                        }}
+                        className="w-12 h-12 bg-white/20 dark:bg-white hover:bg-white/30 rounded-xl flex items-center justify-center transition-colors"
+                      >
+                        <Phone className="h-6 w-6 text-white dark:text-black" />
+                      </Button>
+                      <Button
+                        onClick={() => {
+                          setShowFloatingMenu(false)
+                          window.location.href = "/bills"
+                        }}
+                        className="w-12 h-12 bg-white/20 dark:bg-white hover:bg-white/30 rounded-xl flex items-center justify-center transition-colors"
+                      >
+                        <Receipt className="h-6 w-6 text-white dark:text-black" />
+                      </Button>
+                      <Button
+                        onClick={() => {
+                          setShowFloatingMenu(false)
+                          window.location.href = "/flight"
+                        }}
+                        className="w-12 h-12 bg-white/20 dark:bg-white hover:bg-white/30 rounded-xl flex items-center justify-center transition-colors"
+                      >
+                        <Plane className="h-6 w-6 text-white dark:text-black" />
+                      </Button>
+                      <Button
+                        onClick={() => {
+                          setShowFloatingMenu(false)
+                          window.location.href = "/wallet"
+                        }}
+                        className="w-12 h-12 bg-white/20 dark:bg-white hover:bg-white/30 rounded-xl flex items-center justify-center transition-colors"
+                      >
+                        <Wallet className="h-6 w-6 text-white dark:text-black" />
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </>
+            )}
+
+            {/* Profile */}
             <Link
               href="/account"
-              className={cn(
-                "flex flex-col items-center space-y-1 px-3 py-2 rounded-lg transition-colors",
-                pathname === "/account" ? "text-primary" : "text-muted-foreground hover:text-foreground",
-              )}
+              className="flex flex-col items-center space-y-1 px-3 py-2 rounded-lg transition-colors"
             >
-              <User className="h-5 w-5" />
-              <span className="text-xs">Tài khoản</span>
+              <div
+                className={cn(
+                  "w-10 h-10 rounded-xl flex items-center justify-center transition-colors",
+                  pathname === "/account"
+                    ? "bg-blue-500 text-white"
+                    : "bg-gray-100 text-muted-foreground hover:bg-gray-200",
+                )}
+              >
+                <User className="h-5 w-5" />
+              </div>
+              <span
+                className={cn(
+                  "text-xs transition-colors",
+                  pathname === "/account" ? "text-blue-500 font-medium" : "text-muted-foreground",
+                )}
+              >
+                Profile
+              </span>
+            </Link>
+
+            {/* Course */}
+            <Link
+              href="/course"
+              className="flex flex-col items-center space-y-1 px-3 py-2 rounded-lg transition-colors"
+            >
+              <div
+                className={cn(
+                  "w-10 h-10 rounded-xl flex items-center justify-center transition-colors",
+                  pathname === "/course"
+                    ? "bg-green-500 text-white"
+                    : "bg-gray-100 text-muted-foreground hover:bg-gray-200",
+                )}
+              >
+                <BookOpen className="h-5 w-5" />
+              </div>
+              <span
+                className={cn(
+                  "text-xs transition-colors",
+                  pathname === "/course" ? "text-green-500 font-medium" : "text-muted-foreground",
+                )}
+              >
+                Course
+              </span>
             </Link>
           </div>
         </div>
