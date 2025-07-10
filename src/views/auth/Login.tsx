@@ -62,7 +62,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen relative flex items-center justify-center p-4">
+    <div className="min-h-screen relative flex items-center justify-center p-4 bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90%">
       {/* Background Image with Blur */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
@@ -86,11 +86,11 @@ export default function LoginPage() {
 
       {/* Login Form */}
       <div className="relative z-10 w-full max-w-md">
-        <div className="bg-white/95 backdrop-blur-md rounded-2xl p-8 shadow-2xl border border-white/20">
+        <div className="dark:bg-unprimary bg-white backdrop-blur-md rounded-2xl p-8 shadow-2xl border border-white/20">
           {/* Header */}
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Đăng nhập</h1>
-            <p className="text-gray-600">Chào mừng bạn trở lại!</p>
+            <h1 className="text-3xl font-bold text-primary mb-2">Đăng nhập</h1>
+            <p className="text-primary">Chào mừng bạn trở lại!</p>
           </div>
 
           {/* Social Login Buttons */}
@@ -98,7 +98,7 @@ export default function LoginPage() {
             {/* Google Login */}
             <Button
               variant="outline"
-              className="w-full h-11 border-gray-200 hover:bg-gray-50 bg-white/80 text-sm"
+              className="w-full h-11 border-gray-200 hover:bg-gray-50 bg-white/80 text-sm text-primary"
               onClick={() => handleSocialLogin("Google")}
             >
               <svg className="w-4 h-4 mr-2" viewBox="0 0 24 24">
@@ -125,7 +125,7 @@ export default function LoginPage() {
             {/* Apple Login */}
             <Button
               variant="outline"
-              className="w-full h-11 border-gray-200 hover:bg-gray-50 bg-white/80 text-sm"
+              className="w-full h-11 border-gray-200 hover:bg-gray-50 bg-white/80 text-sm text-primary"
               onClick={() => handleSocialLogin("Apple")}
             >
               <svg
@@ -141,7 +141,7 @@ export default function LoginPage() {
             {/* Facebook Login */}
             <Button
               variant="outline"
-              className="w-full h-11 border-gray-200 hover:bg-gray-50 bg-white/80 text-sm"
+              className="w-full h-11 border-gray-200 hover:bg-gray-50 bg-white/80 text-sm text-primary"
               onClick={() => handleSocialLogin("Facebook")}
             >
               <svg className="w-4 h-4 mr-2" viewBox="0 0 24 24" fill="#1877F2">
