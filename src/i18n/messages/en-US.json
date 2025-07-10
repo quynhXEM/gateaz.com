@@ -1,4 +1,33 @@
 {
+  "navigation": {
+    "home": "Home",
+    "account": "Account",
+    "bills": "Bills",
+    "course": "Course",
+    "favorite": "Favorite",
+    "flight": "Flight",
+    "hotel": "Hotel",
+    "invite_agency": "Agency",
+    "invite_user": "Customer",
+    "movie": "Movie",
+    "payment": "Payment",
+    "promotions": "Promotions",
+    "scan_qr": "Scan QR",
+    "settings": "Settings",
+    "shopping": "Shopping",
+    "tools": "Tools",
+    "ai_writer": "AI Writer",
+    "domain": "Domain",
+    "social_boost": "Social Boost",
+    "translator": "Translator",
+    "voice_box": "Voice Box",
+    "topup": "Top Up",
+    "transfer": "Transfer",
+    "transport": "Transport",
+    "wallet": "Wallet",
+    "notification": "Notify",
+    "profile": "Profile"
+  },
   "title": "Gate AZ - Financial Management System",
   "page_not_found": "Page Not Found"
 }

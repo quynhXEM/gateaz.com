@@ -1,3 +1,4 @@
+import PwaInstallPrompt from "@/commons/components/PwaInstallPrompt";
 import { ThemeProvider } from "@/components/theme-provider";
 import { routing } from "@/i18n/routing";
 import { NextIntlClientProvider } from "next-intl";
@@ -32,6 +33,7 @@ const LocaleLayout = async ({
         disableTransitionOnChange
       >
         {children}
+        <PwaInstallPrompt/>
       </ThemeProvider>
     </NextIntlClientProvider>
   );

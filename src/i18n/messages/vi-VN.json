@@ -1,4 +1,33 @@
 {
+  "navigation": {
+    "home": "Trang chủ",
+    "account": "Tài khoản",
+    "bills": "Hóa đơn",
+    "course": "Khóa học",
+    "favorite": "Yêu thích",
+    "flight": "Chuyến bay",
+    "hotel": "Khách sạn",
+    "invite_agency": "Đại lý",
+    "invite_user": "Khách hàng",
+    "movie": "Vé xem phim",
+    "payment": "Thanh toán",
+    "promotions": "Khuyến mãi",
+    "scan_qr": "Thanh toán",
+    "settings": "Cài đặt",
+    "shopping": "Mua sắm",
+    "tools": "Công cụ",
+    "ai_writer": "Trợ lý viết AI",
+    "domain": "Tên miền",
+    "social_boost": "Tăng tương tác",
+    "translator": "Dịch thuật",
+    "voice_box": "Chuyển giọng nói",
+    "topup": "Nạp tiền",
+    "transfer": "Chuyển khoản",
+    "transport": "Vận chuyển",
+    "wallet": "Ví",
+    "notification": "Thông báo",
+    "profile": "Cá nhân"
+  },
   "title": "Gate AZ - Hệ thống quản lý tài chính",
   "page_not_found": "Không tìm thấy trang"
 }
