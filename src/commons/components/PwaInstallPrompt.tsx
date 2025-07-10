@@ -4,47 +4,27 @@ import "@khmyznikov/pwa-install";
 import { useEffect, useRef, useState } from "react";
 
 // Hằng số thời gian giữa các lần hiển thị lại (ms)
-const PROMPT_REPEAT_INTERVAL = 1000 * 60 * 60;
+const PROMPT_REPEAT_INTERVAL = 1000 * 60;
 
 export default function PwaInstallPrompt() {
   const ref = useRef<any>(null);
-  const [shouldShow, setShouldShow] = useState(false);
 
-  const isStandalone =
-    typeof window !== "undefined" &&
-    (window.matchMedia("(display-mode: standalone)").matches ||
-      (window.navigator as any).standalone === true);
-
-  // Kiểm tra xem có hiển thị lại không
   useEffect(() => {
-    if (isStandalone) return;
-
-    const lastDismiss = localStorage.getItem("pwa-prompt-dismissed-at");
-    const now = Date.now();
-
-    if (!lastDismiss || now - parseInt(lastDismiss) > PROMPT_REPEAT_INTERVAL) {
-      setShouldShow(true);
+    const install = sessionStorage.getItem("pwa-hide-install");
+    if (install) {
+      const time = sessionStorage.getItem("pwa-hide-time") || 0;
+      if (Number(time) < Date.now() || !time) {
+        sessionStorage.removeItem("pwa-hide-install");
+        sessionStorage.removeItem("pwa-hide-time");
+        window.location.reload();
+      }
+    } else {
+      sessionStorage.setItem(
+        "pwa-hide-time",
+        (Date.now() + PROMPT_REPEAT_INTERVAL).toString()
+      );
     }
   }, []);
-
-  // Khi người dùng tắt popup → lưu thời điểm
-  const handleClose = () => {
-    localStorage.setItem("pwa-prompt-dismissed-at", Date.now().toString());
-    setShouldShow(false);
-  };
-
-  // Lắng nghe event đóng popup
-  useEffect(() => {
-    if (shouldShow && ref.current) {
-      ref.current.addEventListener("closed", handleClose);
-    }
-    return () => {
-      ref.current?.removeEventListener("closed", handleClose);
-    };
-  }, [shouldShow]);
-
-  if (!shouldShow) return null;
-
   return (
     <pwa-install
       ref={ref}

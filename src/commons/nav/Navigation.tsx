@@ -11,11 +11,12 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { cn } from "@/lib/utils";
+import { cn } from "@/libs/utils";
 import LocaleDropdown from "../components/LocaleDropdown";
 import ThemeToggle from "../components/ThemeToggle";
 import NavContent from "./NavContent";
 import BottomNav from "./BottomNav";
+import AuthButton from "../components/AuthButton";
 
 export function Navigation({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = useState(false);
@@ -54,9 +55,10 @@ export function Navigation({ children }: { children: React.ReactNode }) {
           <Menu className="h-6 w-6" />
         </Button>
         <h1 className="text-xl font-bold">Wallet App</h1>
-        <div className="ml-auto">
+        <div className="flex ml-auto gap-2">
           <LocaleDropdown />
           <ThemeToggle />
+          <AuthButton/>
         </div>
       </header>
       {/* Desktop Layout */}
@@ -86,7 +88,7 @@ export function Navigation({ children }: { children: React.ReactNode }) {
 
           {/* Navigation Content */}
           <div className="p-4 overflow-y-auto h-[calc(100vh-120px)] scrollbar-hide">
-            <NavContent collapsed={sidebarCollapsed} />
+            <NavContent collapsed={sidebarCollapsed} setOpen={setOpen}/>
           </div>
         </div>
 

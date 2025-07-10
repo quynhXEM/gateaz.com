@@ -26,7 +26,8 @@
     "transport": "Transport",
     "wallet": "Wallet",
     "notification": "Notify",
-    "profile": "Profile"
+    "profile": "Profile",
+    "logout": "Logout"
   },
   "title": "Gate AZ - Financial Management System",
   "page_not_found": "Page Not Found"

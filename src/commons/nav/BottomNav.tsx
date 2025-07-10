@@ -2,7 +2,7 @@ import { Bell, BookOpen, Heart, Home, Plus, User, Wallet } from "lucide-react";
 import Link from "next/link";
 import BottomFloating from "./BottomFloating";
 import { usePathname } from "@/i18n/navigation";
-import { cn } from "@/lib/utils";
+import { cn } from "@/libs/utils";
 import { useTranslations } from "next-intl";
 
 export default function BottomNav({

@@ -1,6 +1,6 @@
 import { Navigation } from "@/commons/nav/Navigation";
+import { AuthProvider } from "@/contexts/AuthContext";
 import { ReactNode } from "react";
-import { ToastContainer } from "react-toastify";
 const MainLayout = async ({
   children,
   params,
@@ -9,10 +9,9 @@ const MainLayout = async ({
   params: Promise<{ locale: string }>;
 }) => {
   return (
-    <Navigation>
-      {children}
-      <ToastContainer />
-    </Navigation>
+    <AuthProvider>
+      <Navigation>{children}</Navigation>
+    </AuthProvider>
   );
 };
 
