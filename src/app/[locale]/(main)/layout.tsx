@@ -1,6 +1,6 @@
 import { Navigation } from "@/commons/nav/Navigation";
 import { ReactNode } from "react";
-
+import { ToastContainer } from "react-toastify";
 const MainLayout = async ({
   children,
   params,
@@ -8,7 +8,12 @@ const MainLayout = async ({
   children: ReactNode;
   params: Promise<{ locale: string }>;
 }) => {
-  return <Navigation>{children}</Navigation>;
+  return (
+    <Navigation>
+      {children}
+      <ToastContainer />
+    </Navigation>
+  );
 };
 
 export default MainLayout;

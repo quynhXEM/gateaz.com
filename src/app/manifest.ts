@@ -2,10 +2,9 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "GateAZ - Gate Management System",
-    short_name: "GateAZ",
-    description:
-      "A Progressive Web App for gate management system built with Next.js",
+    name: "Gate AZ - Financial Management System",
+    short_name: "Gate AZ",
+    description: "Gate AZ - Financial Management System",
     start_url: "/vi-VN/home",
     display: "standalone",
     background_color: "#ffffff",

@@ -22,6 +22,7 @@ import {
   Star,
   Wallet,
 } from "lucide-react";
+import StepProgress from "@/commons/components/StepProgress";
 
 const inviteTypes = [
   {
@@ -180,48 +181,7 @@ export default function InviteUserPage() {
         </div>
 
         {/* Progress Steps */}
-        <Card>
-          <CardContent className="p-3 md:p-6">
-            <div className="flex items-center justify-between overflow-x-auto">
-              {steps.map((step, index) => (
-                <div key={step.id} className="flex items-center min-w-0">
-                  <div className="flex flex-col items-center">
-                    <div
-                      className={`w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center text-xs md:text-sm font-medium ${
-                        step.id < currentStep
-                          ? "bg-green-500 text-white"
-                          : step.id === currentStep
-                          ? "bg-blue-500 text-white"
-                          : "bg-gray-200 text-gray-500"
-                      }`}
-                    >
-                      {step.id < currentStep ? (
-                        <Check className="h-3 w-3 md:h-5 md:w-5" />
-                      ) : (
-                        step.id
-                      )}
-                    </div>
-                    <div className="mt-1 md:mt-2 text-center">
-                      <p className="text-xs md:text-sm font-medium whitespace-nowrap hidden sm:block">
-                        {step.title}
-                      </p>
-                      <p className="text-xs text-muted-foreground hidden lg:block">
-                        {step.description}
-                      </p>
-                    </div>
-                  </div>
-                  {index < steps.length - 1 && (
-                    <div
-                      className={`w-8 md:w-16 h-0.5 mx-2 md:mx-4 ${
-                        step.id < currentStep ? "bg-green-500" : "bg-gray-200"
-                      }`}
-                    />
-                  )}
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+        <StepProgress currentStep={currentStep} totalSteps={steps.length} />
 
         {/* Step Content */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
