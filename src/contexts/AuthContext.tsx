@@ -40,9 +40,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       });
       setLoading(false);
     } else {
-      if (pathname !== "/home") router.push("/login");
+      if (pathname !== "/home") {
+        router.push("/login");
+      } else {
+        setLoading(false);
+      }
     }
-  }, []);
+    
+  }, [pathname]);
 
   return (
     <AuthContext.Provider value={{ user, isAuthenticated: !!user, loading }}>
