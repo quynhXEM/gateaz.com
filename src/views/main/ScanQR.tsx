@@ -105,9 +105,7 @@ export default function ScanQRPage() {
   };
 
   // Process scan result based on type
-  const processScanResult = (input: any) => {
-    
-  };
+  const processScanResult = (input: any) => {};
 
   const onScanHanlde = (result: any) => {
     setScanResult(result[0].rawValue);
