@@ -25,10 +25,12 @@ import {
   Handshake,
   UserRoundPlus,
   ScanQrCode,
+  LogOutIcon,
 } from "lucide-react";
-import { usePathname } from "@/i18n/navigation";
-import { cn } from "@/lib/utils";
+import { usePathname, useRouter } from "@/i18n/navigation";
+import { cn } from "@/libs/utils";
 import { useTranslations } from "next-intl";
+import { logoutHandle } from "@/services/AuthService";
 
 const navItems = [
   {
@@ -83,6 +85,12 @@ export default function NavContent({
 }) {
   const pathname = usePathname();
   const t = useTranslations("navigation");
+  const router = useRouter();
+  const logout = () => {
+    router.push("/login")
+    logoutHandle();
+  }
+  
   return (
     <div className="space-y-6">
       {navItems.map((section) => (
@@ -127,6 +135,18 @@ export default function NavContent({
           </div>
         </div>
       ))}
+      <div
+        onClick={logout}
+        className={cn(
+          "flex mb-10 items-center rounded-lg transition-colors text-sm px-3 cursor-pointer",
+          collapsed ? "justify-center p-3 mx-1" : "space-x-3 px-3 py-2",
+          "hover:bg-accent hover:text-accent-foreground"
+        )}>
+        <LogOutIcon
+          className={cn("h-4 w-4 mx-3", collapsed ? "flex-shrink-0" : "")}
+        />
+        {!collapsed && <span className="truncate">{t("logout")}</span>}
+      </div>
     </div>
   );
 }

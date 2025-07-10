@@ -5,6 +5,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { ReactNode } from "react";
+import { ToastContainer } from "react-toastify";
 
 const LocaleLayout = async ({
   children,
@@ -33,6 +34,7 @@ const LocaleLayout = async ({
         disableTransitionOnChange
       >
         {children}
+        <ToastContainer />
         <PwaInstallPrompt/>
       </ThemeProvider>
     </NextIntlClientProvider>

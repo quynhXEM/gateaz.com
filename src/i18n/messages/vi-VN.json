@@ -26,7 +26,8 @@
     "transport": "Vận chuyển",
     "wallet": "Ví",
     "notification": "Thông báo",
-    "profile": "Cá nhân"
+    "profile": "Cá nhân",
+    "logout": "Đăng xuất"
   },
   "title": "Gate AZ - Hệ thống quản lý tài chính",
   "page_not_found": "Không tìm thấy trang"
