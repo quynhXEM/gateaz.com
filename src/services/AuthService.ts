@@ -41,12 +41,13 @@ export const registerHandle = async (data: any) => {
           data: data,
         }),
       }
-    )
-      .then((data) => data.json())
-      .then((data) => data);
-    console.log(response);
+    ).then(data => data.json())
+    
 
-    return response;
+    if (response?.ok) {
+      return response?.result
+    }
+    return null;
   } catch (error) {
     console.error(error);
     throw error;

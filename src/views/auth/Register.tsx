@@ -3,18 +3,7 @@
 import type React from "react";
 import PhoneInput from "react-phone-input-2";
 import { useState } from "react";
-import {
-  Eye,
-  EyeOff,
-  Mail,
-  Lock,
-  User,
-  Phone,
-  ArrowLeft,
-  Users,
-  VenusAndMars,
-  Key,
-} from "lucide-react";
+import { Mail, User, ArrowLeft, VenusAndMars, Key } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -39,10 +28,16 @@ import {
 } from "@/components/ui/select";
 import ThemeToggle from "@/commons/components/ThemeToggle";
 import { useTheme } from "next-themes";
-import { registerHandle } from "@/services/AuthService";
+import {
+  getMeHandle,
+  loginHandle,
+  registerHandle,
+} from "@/services/AuthService";
+import { toast } from "react-toastify";
+import { setSession } from "@/utils/token";
 const registerSchema = z.object({
   gender: z.string().min(1, "require_fill_field"),
-  fullname: z.string().min(1, "require_fill_field"),
+  full_name: z.string().min(1, "require_fill_field"),
   phone: z.string().min(1, "require_fill_field"),
   email: z.string().email("require_fill_field"),
   username: z.string().min(1, "require_fill_field"),
@@ -58,7 +53,7 @@ export default function RegisterPage() {
     resolver: zodResolver(registerSchema),
     defaultValues: {
       gender: "male",
-      fullname: "Nguyễn Văn A",
+      full_name: "Nguyễn Văn A",
       phone: "2934782",
       email: "nguyena@gmail.com",
       username: "vana1",
@@ -70,9 +65,33 @@ export default function RegisterPage() {
   const theme = useTheme();
 
   const onRegister = async (values: z.infer<typeof registerSchema>) => {
-    console.log(values);
-    const register = await registerHandle(values)
+    const register = await registerHandle({
+      email: values?.email,
+      password: values?.password,
+      username: values?.username,
+      full_name: values?.full_name,
+      phone: values?.phone,
+      gender: values?.gender,
+      language: "vi-VN",
+      country_code: "VN",
+    });
 
+    if (register?.errors) {
+      toast(
+        register?.errors[0].extensions?.field +
+          " đã có người dùng hoặc không hợp lệ !"
+      );
+    } else {
+      const login_data = await loginHandle(values);
+      if (login_data.access_token) {
+        setSession(login_data);
+        const user_data = await getMeHandle();
+        sessionStorage.setItem("user", JSON.stringify(user_data));
+        router.push("/home");
+      } else {
+        toast.error("Đăng nhập không thành công !");
+      }
+    }
   };
 
   return (
@@ -120,7 +139,7 @@ export default function RegisterPage() {
               {/* Info Field */}
               <div className="space-y-2">
                 <Label
-                  htmlFor="fullname"
+                  htmlFor="full_name"
                   className="text-sm font-medium text-gray-700 text-primary"
                 >
                   Thông tin cá nhân
@@ -157,7 +176,7 @@ export default function RegisterPage() {
                   {/* Name */}
                   <FormField
                     control={form.control}
-                    name="fullname"
+                    name="full_name"
                     render={({ field }) => (
                       <FormItem>
                         <FormControl>
@@ -165,9 +184,9 @@ export default function RegisterPage() {
                             <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-primary h-4 w-4" />
                             <Input
                               {...field}
-                              id="fullname"
+                              id="full_name"
                               type="text"
-                              placeholder="Enter fullname"
+                              placeholder="Enter full_name"
                               className="pl-10 pr-20 h-9 w-full text-sm"
                               required
                             />
@@ -186,6 +205,8 @@ export default function RegisterPage() {
                     <FormItem>
                       <FormControl>
                         <PhoneInput
+                          value={field.value}
+                          onChange={field.onChange}
                           inputStyle={{
                             width: "100%",
                             backgroundColor: "transparent",
