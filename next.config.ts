@@ -16,28 +16,12 @@ const nextConfig: NextConfig = {
       permanent: true,
       locale: false,
     },
-    
-    // 2 Tự đông redirect khi có locale
-    {
-      source:
-        "/((?!vi-VN|en-US|front-pages|favicon\\.ico|sw\\.js|images(?:/.*)?$).*)",
-      destination: "/vi-VN/:path*",
-      has: [
-        {
-          type: "query",
-          key: "path",
-        },
-      ],
-      permanent: true,
-      locale: false,
-    },
     {
       source: "/:locale(vi-VN|en-US)",
       destination: "/:locale/home",
       permanent: true,
       locale: false,
     },
-    
   ],
   async headers() {
     return [
