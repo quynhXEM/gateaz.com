@@ -15,8 +15,7 @@ export const loginHandle = async ({
     });
     return response;
   } catch (error) {
-    console.error(error);
-    throw error;
+    return error;
   }
 };
 
@@ -41,15 +40,13 @@ export const registerHandle = async (data: any) => {
           data: data,
         }),
       }
-    ).then(data => data.json())
-    
+    ).then((data) => data.json());
 
     if (response?.ok) {
-      return response?.result
+      return response?.result;
     }
     return null;
   } catch (error) {
-    console.error(error);
     throw error;
   }
 };
@@ -73,7 +70,6 @@ export const getMeHandle = async () => {
     }
     return null;
   } catch (error) {
-    console.error(error);
     throw error;
   }
 };

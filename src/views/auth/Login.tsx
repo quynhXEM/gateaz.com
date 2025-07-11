@@ -37,6 +37,7 @@ const loginSchema = z.object({
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const methods = useForm();
   const t = useTranslations("login");
@@ -50,15 +51,18 @@ export default function LoginPage() {
   });
 
   async function onSubmit(values: z.infer<typeof loginSchema>) {
+    setIsLoading(true);
     const login_data = await loginHandle(values);
-    if (login_data.access_token) {
+    if (login_data?.errors) {
+      toast.error("Thông tin đăng nhập không hợp lệ !");
+      setIsLoading(false);
+    } else {
       setSession(login_data);
       const user_data = await getMeHandle();
       sessionStorage.setItem("user", JSON.stringify(user_data));
       router.push("/home");
-    } else {
-      toast.error("Đăng nhập không thành công !");
     }
+    
   }
 
   const handleSocialLogin = (provider: string) => {
@@ -252,9 +256,9 @@ export default function LoginPage() {
               <Button
                 type="submit"
                 className="w-full h-12 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl"
-                disabled={form.formState.isLoading}
+                disabled={isLoading}
               >
-                {form.formState.isLoading ? (
+                {isLoading ? (
                   <div className="flex items-center gap-2">
                     <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                     {t("logging_in")}

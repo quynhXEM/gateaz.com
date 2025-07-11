@@ -40,6 +40,7 @@ import { useLocale, useTranslations } from "next-intl";
 
 export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const t = useTranslations("register");
   const registerSchema = z.object({
     gender: z.string().min(1, t("require_fill_field")),
@@ -71,6 +72,7 @@ export default function RegisterPage() {
   
 
   const onRegister = async (values: z.infer<typeof registerSchema>) => {
+    setIsLoading(true);
     const register = await registerHandle({
       email: values?.email,
       password: values?.password,
@@ -86,15 +88,17 @@ export default function RegisterPage() {
         register?.errors[0].extensions?.field +
           " đã có người dùng hoặc không hợp lệ !"
       );
+      setIsLoading(false);
     } else {
       const login_data = await loginHandle(values);
-      if (login_data.access_token) {
+      if (login_data?.access_token) {
         setSession(login_data);
         const user_data = await getMeHandle();
         sessionStorage.setItem("user", JSON.stringify(user_data));
         router.push("/home");
       } else {
         toast.error("Đăng nhập không thành công !");
+        router.push("/login");
       }
     }
   };
@@ -363,9 +367,9 @@ export default function RegisterPage() {
               <Button
                 type="submit"
                 className="w-full h-11 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl"
-                disabled={form.formState.isLoading}
+                disabled={isLoading}
               >
-                {form.formState.isLoading ? (
+                {isLoading ? (
                   <div className="flex items-center gap-2">
                     <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                     {t("registering")}
