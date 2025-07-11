@@ -16,12 +16,14 @@ interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
   loading: boolean;
+  setUser: any;
 }
 
 const AuthContext = createContext<AuthContextType>({
   user: null,
   isAuthenticated: false,
   loading: true,
+  setUser: () => {},
 });
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
@@ -32,12 +34,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     const sessionData = getSession();
-
-    if (sessionData) {
-      setUser({
-        id: "1",
-        name: "Admin",
-      });
+    const user = sessionStorage.getItem("user");
+    if (sessionData && user) {
+      setUser(JSON.parse(user));
       setLoading(false);
     } else {
       if (pathname !== "/home") {
@@ -46,11 +45,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setLoading(false);
       }
     }
-    
   }, [pathname]);
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated: !!user, loading }}>
+    <AuthContext.Provider
+      value={{ user, isAuthenticated: !!user, loading, setUser }}
+    >
       {!loading && children}
     </AuthContext.Provider>
   );

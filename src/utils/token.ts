@@ -1,39 +1,37 @@
+import Cookies from "js-cookie";
 import { decrypt, encrypt } from "./crypto";
-
-const SESSION_KEY = "session";
+const COOKIE_KEY = "session";
 
 /**
- * Lưu session vào sessionStorage
- * @param {string} accessToken
- * @param {string} refreshToken
- * @param {number} expiresIn - Thời gian sống của accessToken (tính bằng giây)
+ * Lưu session vào cookie
  */
-export function setSession({
-  access_token,
-  refresh_token,
-  expires_at,
-}: any) {
+export function setSession({ access_token, refresh_token, expires_at }: any) {
   const session = {
-    access_token: access_token,
-    refresh_token: refresh_token,
-    expires_at: expires_at,
+    access_token,
+    refresh_token,
+    expires_at,
   };
 
-  sessionStorage.setItem(SESSION_KEY, encrypt(JSON.stringify(session)));
+  const encrypted = encrypt(JSON.stringify(session));
+
+  Cookies.set(COOKIE_KEY, encrypted, {
+    path: "/",
+    expires: new Date(expires_at), // Hoặc dùng expires: 1 (số ngày)
+    secure: true,
+    sameSite: "Strict",
+  });
 }
 
 /**
- * Đọc session từ sessionStorage
- * @returns {{access_token: string, refresh_token: string, expires_at: number} | null}
+ * Đọc session từ cookie (client only)
  */
-export function getSession() {
-  const data = sessionStorage.getItem(SESSION_KEY);
-  if (!data) return null;
+export function getSession(): any | null {
+  const encrypted = Cookies.get(COOKIE_KEY);
+  if (!encrypted) return null;
 
   try {
-    const decrypted = decrypt(data);
-    const parsed = JSON.parse(decrypted);
-    return parsed;
+    const decrypted = decrypt(encrypted);
+    return JSON.parse(decrypted);
   } catch (err) {
     console.error("Session parse error:", err);
     return null;
@@ -42,7 +40,6 @@ export function getSession() {
 
 /**
  * Kiểm tra session còn hạn hay không
- * @returns {boolean}
  */
 export function isSessionValid() {
   const session = getSession();
@@ -52,8 +49,8 @@ export function isSessionValid() {
 }
 
 /**
- * Xóa session khỏi sessionStorage
+ * Xóa session khỏi cookie
  */
 export function clearSession() {
-  sessionStorage.removeItem(SESSION_KEY);
+  Cookies.remove(COOKIE_KEY);
 }

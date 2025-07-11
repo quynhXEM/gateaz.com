@@ -10,7 +10,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { z } from "zod";
-import { loginHandle } from "@/services/AuthService";
+import { getMeHandle, loginHandle } from "@/services/AuthService";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -22,7 +22,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { setSession } from "@/utils/token";
-import { log } from "node:console";
 
 const loginSchema = z.object({
   email: z
@@ -42,15 +41,16 @@ export default function LoginPage() {
     resolver: zodResolver(loginSchema),
     defaultValues: {
       email: "quynhuser@xem.edu.vn",
-      password: "SOC@123456",
+      password: "Soc@123456",
     },
   });
 
   async function onSubmit(values: z.infer<typeof loginSchema>) {
     const login_data = await loginHandle(values);
     if (login_data.access_token) {
-      console.log(login_data);
       setSession(login_data);
+      const user_data = await getMeHandle();
+      sessionStorage.setItem("user", JSON.stringify(user_data))
       router.push("/home");
     } else {
       toast.error("Đăng nhập không thành công !");
