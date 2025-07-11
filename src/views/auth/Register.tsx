@@ -36,7 +36,7 @@ import {
 import { toast } from "react-toastify";
 import { setSession } from "@/utils/token";
 import LocaleDropdown from "@/commons/components/LocaleDropdown";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -67,6 +67,8 @@ export default function RegisterPage() {
   });
   const router = useRouter();
   const theme = useTheme();
+  const locale = useLocale();
+  
 
   const onRegister = async (values: z.infer<typeof registerSchema>) => {
     const register = await registerHandle({
@@ -76,8 +78,7 @@ export default function RegisterPage() {
       full_name: values?.full_name,
       phone: values?.phone,
       gender: values?.gender,
-      language: "vi-VN",
-      country_code: "VN",
+      language: locale
     });
 
     if (register?.errors) {
