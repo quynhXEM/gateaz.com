@@ -2,9 +2,9 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Gate AZ - Financial Management System",
+    name: "Gate AZ",
     short_name: "Gate AZ",
-    description: "Gate AZ - Financial Management System",
+    description: "Gate AZ",
     start_url: "/vi-VN/home",
     display: "standalone",
     background_color: "#ffffff",

@@ -28,6 +28,7 @@ export default function PwaInstallPrompt() {
   return (
     <pwa-install
       ref={ref}
+      name="Gate AZ"
       manifest-url="/manifest.json"
       icon="/icon-192x192.png"
       description="Cài ứng dụng để có trải nghiệm tốt hơn"

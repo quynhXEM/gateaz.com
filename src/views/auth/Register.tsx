@@ -35,29 +35,33 @@ import {
 } from "@/services/AuthService";
 import { toast } from "react-toastify";
 import { setSession } from "@/utils/token";
-const registerSchema = z.object({
-  gender: z.string().min(1, "require_fill_field"),
-  full_name: z.string().min(1, "require_fill_field"),
-  phone: z.string().min(1, "require_fill_field"),
-  email: z.string().email("require_fill_field"),
-  username: z.string().min(1, "require_fill_field"),
-  password: z.string().min(6, "require_fill_field"),
-  term: z.boolean().refine((data) => data, {
-    message: "require_agree",
-  }),
-});
+import LocaleDropdown from "@/commons/components/LocaleDropdown";
+import { useTranslations } from "next-intl";
 
 export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
+  const t = useTranslations("register");
+  const registerSchema = z.object({
+    gender: z.string().min(1, t("require_fill_field")),
+    full_name: z.string().min(1, t("require_fill_field")),
+    phone: z.string().min(1, t("require_fill_field")),
+    email: z.string().email(t("require_fill_field")),
+    username: z.string().min(1, t("require_fill_field")),
+    password: z.string().min(6, t("require_fill_field")),
+    term: z.boolean().refine((data) => data, {
+      message: t("require_agree"),
+    }),
+  });
+
   const form = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
       gender: "male",
-      full_name: "Nguyễn Văn A",
-      phone: "2934782",
-      email: "nguyena@gmail.com",
-      username: "vana1",
-      password: "Vana@1",
+      full_name: "",
+      phone: "",
+      email: "",
+      username: "",
+      password: "",
       term: false,
     },
   });
@@ -119,15 +123,18 @@ export default function RegisterPage() {
       <div className="absolute top-4 right-4 z-10 text-white z-10">
         <ThemeToggle />
       </div>
+      <div className="absolute top-4 right-20 z-10 text-white z-10">
+        <LocaleDropdown />
+      </div>
       {/* Register Form */}
       <div className="relative z-10 w-full max-w-md">
         <div className="dark:bg-unprimary bg-white backdrop-blur-md rounded-2xl p-8 shadow-2xl border border-white/20 max-h-[90vh] overflow-y-auto">
           {/* Header */}
           <div className="text-center mb-6">
             <h1 className="text-3xl font-bold text-gray-900 mb-2 text-primary">
-              Đăng ký
+              {t("title")}
             </h1>
-            <p className="text-primary">Tạo tài khoản mới để bắt đầu</p>
+            <p className="text-primary">{t("subtitle")}</p>
           </div>
 
           {/* Form */}
@@ -142,7 +149,7 @@ export default function RegisterPage() {
                   htmlFor="full_name"
                   className="text-sm font-medium text-gray-700 text-primary"
                 >
-                  Thông tin cá nhân
+                  {t("personal_info")}
                 </Label>
                 <div className="flex gap-2 flex-row xs:flex-col">
                   {/* Gender */}
@@ -160,16 +167,15 @@ export default function RegisterPage() {
                               onValueChange={(value) => field.onChange(value)}
                             >
                               <SelectTrigger className="pl-10 h-16 text-sm">
-                                <SelectValue placeholder="Gender" />
+                                <SelectValue placeholder={t("gender")} />
                               </SelectTrigger>
                               <SelectContent>
-                                <SelectItem value="male">Male</SelectItem>
-                                <SelectItem value="female">Female</SelectItem>
+                                <SelectItem value="male">{t("male")}</SelectItem>
+                                <SelectItem value="female">{t("female")}</SelectItem>
                               </SelectContent>
                             </Select>
                           </div>
                         </FormControl>
-                        <FormMessage />
                       </FormItem>
                     )}
                   />
@@ -186,7 +192,7 @@ export default function RegisterPage() {
                               {...field}
                               id="full_name"
                               type="text"
-                              placeholder="Enter full_name"
+                              placeholder={t("full_name_placeholder")}
                               className="pl-10 pr-20 h-9 w-full text-sm"
                               required
                             />
@@ -243,7 +249,7 @@ export default function RegisterPage() {
                           <Input
                             {...field}
                             id="email"
-                            placeholder="Enter your email"
+                            placeholder={t("email_placeholder")}
                             type="email"
                             className="pl-10 pr-20 h-9 w-full text-sm"
                             required
@@ -261,7 +267,7 @@ export default function RegisterPage() {
                   htmlFor="username"
                   className="text-sm font-medium text-gray-700 text-primary"
                 >
-                  Thông tin tài khoản
+                  {t("account_info")}
                 </Label>
                 {/* Username */}
                 <FormField
@@ -276,7 +282,7 @@ export default function RegisterPage() {
                             {...field}
                             id="username"
                             type="text"
-                            placeholder="Enter username"
+                            placeholder={t("username_placeholder")}
                             className="pl-10 pr-20 h-9 w-full text-sm"
                             required
                           />
@@ -299,7 +305,7 @@ export default function RegisterPage() {
                             {...field}
                             id="password"
                             type={showPassword ? "text" : "password"}
-                            placeholder="Enter password"
+                            placeholder={t("password_placeholder")}
                             className="pl-10 pr-20 h-9 w-full text-sm"
                             required
                           />
@@ -321,11 +327,13 @@ export default function RegisterPage() {
                       <div className="flex gap-2">
                         <FormControl>
                           <Checkbox
-                            {...field}
                             id="term"
                             checked={field.value}
                             onCheckedChange={field.onChange}
                             className="mt-1 flex-shrink-0"
+                            name={field.name}
+                            onBlur={field.onBlur}
+                            ref={field.ref}
                           />
                         </FormControl>
                         <Label
@@ -333,13 +341,13 @@ export default function RegisterPage() {
                           className="text-sm text-primary leading-relaxed cursor-pointer"
                         >
                           <span>
-                            <span>Tôi đồng ý với </span>
-                            <span className="text-blue-600 hover:text-blue-800 font-medium underline-offset-2 hover:underline">
-                              Điều khoản sử dụng
+                            <span>{t("agree_prefix")}</span>
+                            <span onClick={() => {router.push("/article/terms-of-service")}} className="text-blue-600 hover:text-blue-800 font-medium underline-offset-2 hover:underline">
+                              {t("terms")}
                             </span>
-                            <span> và </span>
-                            <span className="text-blue-600 hover:text-blue-800 font-medium underline-offset-2 hover:underline">
-                              Chính sách bảo mật
+                            <span> {t("and")} </span>
+                            <span onClick={() => {router.push("/article/privacy-policy")}} className="text-blue-600 hover:text-blue-800 font-medium underline-offset-2 hover:underline">
+                              {t("privacy")}
                             </span>
                           </span>
                         </Label>
@@ -359,10 +367,10 @@ export default function RegisterPage() {
                 {form.formState.isLoading ? (
                   <div className="flex items-center gap-2">
                     <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                    Đang đăng ký...
+                    {t("registering")}
                   </div>
                 ) : (
-                  "Đăng ký"
+                  t("register")
                 )}
               </Button>
             </form>
@@ -371,12 +379,12 @@ export default function RegisterPage() {
           {/* Login Link */}
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600">
-              Đã có tài khoản?{" "}
+              {t("already_have_account")} {" "}
               <Link
                 href="/login"
                 className="text-blue-600 hover:text-blue-800 font-medium"
               >
-                Đăng nhập ngay
+                {t("login_now")}
               </Link>
             </p>
           </div>

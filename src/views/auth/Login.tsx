@@ -22,6 +22,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { setSession } from "@/utils/token";
+import ThemeToggle from "@/commons/components/ThemeToggle";
+import LocaleDropdown from "@/commons/components/LocaleDropdown";
+import { useTranslations } from "next-intl";
 
 const loginSchema = z.object({
   email: z
@@ -36,6 +39,7 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
   const methods = useForm();
+  const t = useTranslations("login");
 
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -50,7 +54,7 @@ export default function LoginPage() {
     if (login_data.access_token) {
       setSession(login_data);
       const user_data = await getMeHandle();
-      sessionStorage.setItem("user", JSON.stringify(user_data))
+      sessionStorage.setItem("user", JSON.stringify(user_data));
       router.push("/home");
     } else {
       toast.error("Đăng nhập không thành công !");
@@ -83,14 +87,20 @@ export default function LoginPage() {
       >
         <ArrowLeft className="h-5 w-5" />
       </Button>
+      <div className="absolute top-4 right-4 z-10 text-white z-10">
+        <ThemeToggle />
+      </div>
+      <div className="absolute top-4 right-20 z-10 text-white z-10">
+        <LocaleDropdown />
+      </div>
 
       {/* Login Form */}
       <div className="relative z-10 w-full max-w-md">
         <div className="dark:bg-unprimary bg-white backdrop-blur-md rounded-2xl p-8 shadow-2xl border border-white/20">
           {/* Header */}
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-primary mb-2">Đăng nhập</h1>
-            <p className="text-primary">Chào mừng bạn trở lại!</p>
+            <h1 className="text-3xl font-bold text-primary mb-2">{t("title")}</h1>
+            <p className="text-primary">{t("subtitle")}</p>
           </div>
 
           {/* Social Login Buttons */}
@@ -119,7 +129,7 @@ export default function LoginPage() {
                   d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
                 />
               </svg>
-              Đăng nhập với Google
+              {t("login_with_google")}
             </Button>
 
             {/* Apple Login */}
@@ -135,7 +145,7 @@ export default function LoginPage() {
               >
                 <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
               </svg>
-              Đăng nhập với Apple
+              {t("login_with_apple")}
             </Button>
 
             {/* Facebook Login */}
@@ -147,7 +157,7 @@ export default function LoginPage() {
               <svg className="w-4 h-4 mr-2" viewBox="0 0 24 24" fill="#1877F2">
                 <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
               </svg>
-              Đăng nhập với Facebook
+              {t("login_with_facebook")}
             </Button>
           </div>
 
@@ -155,14 +165,13 @@ export default function LoginPage() {
           <div className="my-6 flex items-center">
             <div className="flex-1 border-t border-gray-200" />
             <span className="px-4 text-sm text-gray-500">
-              hoặc đăng nhập với email
+              {t("or_login_with_email")}
             </span>
             <div className="flex-1 border-t border-gray-200" />
           </div>
 
           {/* Form */}
           <FormProvider {...methods}>
-            {/* <Form {...form}> */}
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               {/* Email Field */}
               <div className="space-y-2">
@@ -171,7 +180,7 @@ export default function LoginPage() {
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Email</FormLabel>
+                      <FormLabel>{t("email")}</FormLabel>
                       <FormControl>
                         <div className="relative">
                           <MailIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
@@ -198,7 +207,7 @@ export default function LoginPage() {
                   name="password"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Password</FormLabel>
+                      <FormLabel>{t("password")}</FormLabel>
                       <FormControl>
                         <div className="relative">
                           <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
@@ -235,7 +244,7 @@ export default function LoginPage() {
                   href="/forgot-password"
                   className="text-sm text-blue-600 hover:text-blue-800 font-medium"
                 >
-                  Quên mật khẩu?
+                  {t("forgot_password")}
                 </Link>
               </div>
 
@@ -248,24 +257,23 @@ export default function LoginPage() {
                 {form.formState.isLoading ? (
                   <div className="flex items-center gap-2">
                     <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                    Đang đăng nhập...
+                    {t("logging_in")}
                   </div>
                 ) : (
-                  "Đăng nhập"
+                  t("login")
                 )}
               </Button>
             </form>
-            {/* </Form> */}
           </FormProvider>
           {/* Register Link */}
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600">
-              Chưa có tài khoản?{" "}
+              {t("no_account")} {" "}
               <Link
                 href="/register"
                 className="text-blue-600 hover:text-blue-800 font-medium"
               >
-                Đăng ký ngay
+                {t("register_now")}
               </Link>
             </p>
           </div>
