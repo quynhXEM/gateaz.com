@@ -5,17 +5,22 @@ import { useRouter } from "@/i18n/navigation";
 
 export default function AuthButton() {
   const { user, isAuthenticated } = useAuth();
-  const router = useRouter()
-  
+  const router = useRouter();
+
   return isAuthenticated ? (
     <Avatar>
       <AvatarImage src={user?.avatar} />
-      <AvatarFallback>AD</AvatarFallback>
+      <AvatarFallback>{user?.first_name}</AvatarFallback>
     </Avatar>
   ) : (
-    <Button variant='default' onClick={() => {
-      router.push("/login")
-    }} className="h-9">Login
+    <Button
+      variant="default"
+      onClick={() => {
+        router.push("/login");
+      }}
+      className="h-9"
+    >
+      Login
     </Button>
   );
 }

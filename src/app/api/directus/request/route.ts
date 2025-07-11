@@ -7,12 +7,17 @@ import {
   readItems,
   updateItem,
   withToken,
+  readMe,
+  registerUser,
 } from "@directus/sdk";
-import { getSession } from "@/utils/token";
+import { cookies } from "next/headers";
+import { decrypt } from "@/utils/crypto";
 
+const APP_TOKEN = process.env.APP_TOKEN || "";
 export const POST = async (request: Request) => {
   try {
-    const session = getSession();
+    const session = await getServerSession();
+    console.log(session);
     if (!session) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -27,16 +32,17 @@ export const POST = async (request: Request) => {
     if (type) {
       let res;
 
-     // await refreshToken();
-      const {
-        user: { access_token },
-      } = getSession();
+      // await refreshToken();
+      const { access_token } = session;
 
       switch (type) {
+        case "readMe":
+          res = await directus.request(withToken(access_token || "", readMe()));
+          break;
         case "readItem":
           res = await directus.request(
             withToken(
-              (admin ? process.env.DEV_TOKEN : access_token) || "",
+              (admin ? APP_TOKEN : access_token) || "",
               readItem(collection, id, params)
             )
           );
@@ -45,7 +51,7 @@ export const POST = async (request: Request) => {
         case "readItems":
           res = await directus.request(
             withToken(
-              (admin ? process.env.DEV_TOKEN : access_token) || "",
+              (admin ? APP_TOKEN : access_token) || "",
               readItems(collection, params)
             )
           );
@@ -54,7 +60,7 @@ export const POST = async (request: Request) => {
         case "updateItem":
           res = await directus.request(
             withToken(
-              (admin ? process.env.DEV_TOKEN : access_token) || "",
+              (admin ? APP_TOKEN : access_token) || "",
               updateItem(collection, id, items)
             )
           );
@@ -63,16 +69,16 @@ export const POST = async (request: Request) => {
         case "createItem":
           res = await directus.request(
             withToken(
-              (admin ? process.env.DEV_TOKEN : access_token) || "",
+              (admin ? APP_TOKEN : access_token) || "",
               createItem(collection, items, params)
             )
           );
           break;
 
-          case "deleteItem":
+        case "deleteItem":
           res = await directus.request(
             withToken(
-              (admin ? process.env.DEV_TOKEN : access_token) || "",
+              (admin ? APP_TOKEN : access_token) || "",
               deleteItem(collection, items)
             )
           );
@@ -102,3 +108,18 @@ export const POST = async (request: Request) => {
     });
   }
 };
+
+export async function getServerSession() {
+  const cookieStore = await cookies(); // ✅ đúng
+  const encrypted = cookieStore.get("session")?.value;
+
+  if (!encrypted) return null;
+
+  try {
+    const decrypted = decrypt(encrypted);
+    return JSON.parse(decrypted);
+  } catch (err) {
+    console.error("Failed to parse session from cookie", err);
+    return null;
+  }
+}

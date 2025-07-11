@@ -4,7 +4,7 @@ import "@khmyznikov/pwa-install";
 import { useEffect, useRef, useState } from "react";
 
 // Hằng số thời gian giữa các lần hiển thị lại (ms)
-const PROMPT_REPEAT_INTERVAL = 1000 * 60;
+const PROMPT_REPEAT_INTERVAL = 1000 * 60 * 60;
 
 export default function PwaInstallPrompt() {
   const ref = useRef<any>(null);
@@ -28,6 +28,7 @@ export default function PwaInstallPrompt() {
   return (
     <pwa-install
       ref={ref}
+      name="Gate AZ"
       manifest-url="/manifest.json"
       icon="/icon-192x192.png"
       description="Cài ứng dụng để có trải nghiệm tốt hơn"

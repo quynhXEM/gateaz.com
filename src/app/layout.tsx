@@ -2,6 +2,7 @@ import { geistMono, geistSans } from "@/assets/font";
 import type { Viewport } from "next";
 import { ReactNode } from "react";
 import "./globals.css";
+import 'react-phone-input-2/lib/style.css'
 
 const RootLayout = ({
   children,
