@@ -43,20 +43,22 @@
     "account_info": "Thông tin tài khoản",
     "username_placeholder": "Username",
     "password_placeholder": "Mật khẩu",
+    "phone_placeholder": "Số điện thoại",
     "agree_prefix": "Tôi đồng ý với ",
-    "terms": "Điều khoản sử dụng",
+    "terms": "các điều khoản",
     "and": "và",
     "privacy": "Chính sách bảo mật",
     "register": "Đăng ký",
     "registering": "Đang đăng ký...",
     "already_have_account": "Đã có tài khoản?",
-    "login_now": "Đăng nhập ngay",
+    "login_now": "Đăng nhập",
     "require_fill_field": "Vui lòng điền đầy đủ thông tin",
-    "require_agree": "Đồng ý để tiếp tục"
+    "require_agree": "Đồng ý để tiếp tục",
+    "username_alphanumeric": "Username chỉ được chứa ký tự và số"
   },
   "login": {
       "title": "Đăng nhập",
-      "subtitle": "Chào mừng bạn trở lại!",
+      "subtitle": "Mừng bạn trở lại!",
       "login_with": "Đăng nhập với",
       "login_with_google": "Đăng nhập với Google",
       "login_with_apple": "Đăng nhập với Apple",
@@ -64,11 +66,13 @@
       "or_login_with_email": "hoặc đăng nhập với email",
       "email": "Email",
       "password": "Mật khẩu",
+      "placeholder_email": "Nhập email",
+      "placeholder_password": "Nhập mật khẩu",
       "forgot_password": "Quên mật khẩu?",
       "login": "Đăng nhập",
       "logging_in": "Đang đăng nhập...",
       "no_account": "Chưa có tài khoản?",
-      "register_now": "Đăng ký ngay",
+      "register_now": "Đăng ký",
       "or": "Hoặc"
     }
 }

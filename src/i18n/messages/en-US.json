@@ -43,16 +43,18 @@
     "account_info": "Account Information",
     "username_placeholder": "Username",
     "password_placeholder": "Password",
+    "phone_placeholder": "Phone number",
     "agree_prefix": "I agree to the ",
-    "terms": "Terms of Service",
+    "terms": "Terms",
     "and": "and",
     "privacy": "Privacy Policy",
     "register": "Register",
     "registering": "Registering...",
     "already_have_account": "Already have an account?",
-    "login_now": "Login now",
+    "login_now": "Login",
     "require_fill_field": "Please fill in all fields",
-    "require_agree": "Agree to continue"
+    "require_agree": "Agree to continue",
+    "username_alphanumeric": "Username can only contain letters and numbers"
   },
   "login": {
       "title": "Login",
@@ -64,11 +66,13 @@
       "or_login_with_email": "or login with email",
       "email": "Email",
       "password": "Password",
+      "placeholder_email": "Enter your email",
+      "placeholder_password": "Enter your password",
       "forgot_password": "Forgot password?",
       "login": "Login",
       "logging_in": "Logging in...",
       "no_account": "Don't have an account?",
-      "register_now": "Register now",
+      "register_now": "Register",
       "or": "Or"
     }
 }
