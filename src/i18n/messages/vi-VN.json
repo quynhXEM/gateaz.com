@@ -38,11 +38,11 @@
     "gender": "Giới tính",
     "male": "Nam",
     "female": "Nữ",
-    "full_name_placeholder": "Nhập họ tên",
-    "email_placeholder": "Nhập email của bạn",
+    "full_name_placeholder": "Họ tên đầy đủ",
+    "email_placeholder": "Email",
     "account_info": "Thông tin tài khoản",
-    "username_placeholder": "Nhập tên đăng nhập",
-    "password_placeholder": "Nhập mật khẩu",
+    "username_placeholder": "Username",
+    "password_placeholder": "Mật khẩu",
     "agree_prefix": "Tôi đồng ý với ",
     "terms": "Điều khoản sử dụng",
     "and": "và",
@@ -68,6 +68,7 @@
       "login": "Đăng nhập",
       "logging_in": "Đang đăng nhập...",
       "no_account": "Chưa có tài khoản?",
-      "register_now": "Đăng ký ngay"
+      "register_now": "Đăng ký ngay",
+      "or": "Hoặc"
     }
 }

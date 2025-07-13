@@ -38,11 +38,11 @@
     "gender": "Gender",
     "male": "Male",
     "female": "Female",
-    "full_name_placeholder": "Enter full name",
-    "email_placeholder": "Enter your email",
+    "full_name_placeholder": "Full name",
+    "email_placeholder": "Email",
     "account_info": "Account Information",
-    "username_placeholder": "Enter username",
-    "password_placeholder": "Enter password",
+    "username_placeholder": "Username",
+    "password_placeholder": "Password",
     "agree_prefix": "I agree to the ",
     "terms": "Terms of Service",
     "and": "and",
@@ -68,6 +68,7 @@
       "login": "Login",
       "logging_in": "Logging in...",
       "no_account": "Don't have an account?",
-      "register_now": "Register now"
+      "register_now": "Register now",
+      "or": "Or"
     }
 }
