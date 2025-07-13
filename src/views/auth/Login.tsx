@@ -45,8 +45,8 @@ export default function LoginPage() {
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      email: "quynhuser@xem.edu.vn",
-      password: "Soc@123456",
+      email: "",
+      password: "",
     },
   });
 
@@ -125,6 +125,7 @@ export default function LoginPage() {
                           <Input
                             {...field}
                             id="email"
+                            placeholder={t("placeholder_email")}
                             type={"text"}
                             className="pl-10 pr-10 h-11 bg-white/80 border-gray-200 focus:border-blue-500 focus:ring-blue-500"
                             required
@@ -152,6 +153,7 @@ export default function LoginPage() {
                           <Input
                             {...field}
                             id="password"
+                            placeholder={t("placeholder_password")}
                             type={showPassword ? "text" : "password"}
                             className="pl-10 pr-10 h-11 bg-white/80 border-gray-200 focus:border-blue-500 focus:ring-blue-500"
                             required
@@ -190,7 +192,7 @@ export default function LoginPage() {
               {/* Login Button */}
               <Button
                 type="submit"
-                className="w-full h-12 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl"
+                className="w-full h-12 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl cursor-pointer"
                 disabled={isLoading}
               >
                 {isLoading ? (
@@ -216,7 +218,7 @@ export default function LoginPage() {
             {/* Apple Login */}
             <button
               onClick={() => handleSocialLogin("Apple")}
-              className="w-12 h-12 rounded-full bg-black hover:bg-gray-800 flex items-center justify-center transition-colors"
+              className="w-12 h-12 rounded-full bg-black hover:bg-gray-800 flex items-center justify-center transition-colors cursor-pointer"
             >
               <svg
                 className="w-6 h-6 text-white"
@@ -230,7 +232,7 @@ export default function LoginPage() {
             {/* Facebook Login */}
             <button
               onClick={() => handleSocialLogin("Facebook")}
-              className="w-12 h-12 rounded-full bg-[#166FE5] flex items-center justify-center transition-colors"
+              className="w-12 h-12 rounded-full bg-[#166FE5] flex items-center justify-center transition-colors cursor-pointer"
             >
               <svg
                 className="w-6 h-6 text-white"
@@ -244,7 +246,7 @@ export default function LoginPage() {
             {/* Google Login */}
             <button
               onClick={() => handleSocialLogin("Google")}
-              className="w-12 h-12 rounded-full bg-white hover:bg-gray-50 border border-gray-200 flex items-center justify-center transition-colors"
+              className="w-12 h-12 rounded-full bg-white hover:bg-gray-50 border border-gray-200 flex items-center justify-center transition-colors cursor-pointer"
             >
               <svg className="w-6 h-6" viewBox="0 0 24 24">
                 <path

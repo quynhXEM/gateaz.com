@@ -47,7 +47,10 @@ export default function RegisterPage() {
     full_name: z.string().min(1, t("require_fill_field")),
     phone: z.string().min(1, t("require_fill_field")),
     email: z.string().email(t("require_fill_field")),
-    username: z.string().min(1, t("require_fill_field")),
+    username: z
+      .string()
+      .min(1, t("require_fill_field"))
+      .regex(/^[a-z0-9]+$/, t("username_alphanumeric")),
     password: z.string().min(6, t("require_fill_field")),
     term: z.boolean().refine((data) => data, {
       message: t("require_agree"),
@@ -69,18 +72,17 @@ export default function RegisterPage() {
   const router = useRouter();
   const theme = useTheme();
   const locale = useLocale();
-  
 
   const onRegister = async (values: z.infer<typeof registerSchema>) => {
     setIsLoading(true);
     const register = await registerHandle({
-      email: values?.email,
+      email: values?.email.toLocaleLowerCase(),
       password: values?.password,
-      username: values?.username,
+      username: values?.username.toLocaleLowerCase(),
       full_name: values?.full_name,
       phone: values?.phone,
       gender: values?.gender,
-      language: locale
+      language: locale,
     });
 
     if (register?.errors) {
@@ -175,8 +177,12 @@ export default function RegisterPage() {
                                 <SelectValue placeholder={t("gender")} />
                               </SelectTrigger>
                               <SelectContent>
-                                <SelectItem value="male">{t("male")}</SelectItem>
-                                <SelectItem value="female">{t("female")}</SelectItem>
+                                <SelectItem value="male">
+                                  {t("male")}
+                                </SelectItem>
+                                <SelectItem value="female">
+                                  {t("female")}
+                                </SelectItem>
                               </SelectContent>
                             </Select>
                           </div>
@@ -215,7 +221,11 @@ export default function RegisterPage() {
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <PhoneInput defaultCountry="VN" placeholder="Enter a phone number" {...field} />
+                        <PhoneInput
+                          {...field}
+                          defaultCountry="VN"
+                          placeholder={t("phone_placeholder")}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -289,7 +299,7 @@ export default function RegisterPage() {
                             id="password"
                             type={showPassword ? "text" : "password"}
                             placeholder={t("password_placeholder")}
-                            className="pl-10 pr-20 h-9 w-full text-sm"
+                            className="pl-10 h-9 w-full text-sm"
                             required
                           />
                         </div>
@@ -326,11 +336,12 @@ export default function RegisterPage() {
                           <span>
                             <span>{t("agree_prefix")}</span>
                             <span className="text-blue-600 hover:text-blue-800 font-medium underline-offset-2 hover:underline">
-                              <Link href={"/article/terms-of-service"} target="_blank">{t("terms")}</Link>
-                            </span>
-                            <span> {t("and")} </span>
-                            <span className="text-blue-600 hover:text-blue-800 font-medium underline-offset-2 hover:underline">
-                              <Link href={"/article/privacy-policy"} target="_blank">{t("privacy")}</Link>
+                              <Link
+                                href={"/article/terms-of-service"}
+                                target="_blank"
+                              >
+                                {t("terms")}
+                              </Link>
                             </span>
                           </span>
                         </Label>
@@ -344,7 +355,7 @@ export default function RegisterPage() {
               {/* Register Button */}
               <Button
                 type="submit"
-                className="w-full h-11 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl"
+                className="w-full h-11 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl cursor-pointer"
                 disabled={isLoading}
               >
                 {isLoading ? (
@@ -362,7 +373,7 @@ export default function RegisterPage() {
           {/* Login Link */}
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600">
-              {t("already_have_account")} {" "}
+              {t("already_have_account")}{" "}
               <Link
                 href="/login"
                 className="text-blue-600 hover:text-blue-800 font-medium"
