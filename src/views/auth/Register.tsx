@@ -1,13 +1,13 @@
 "use client";
 
 import type React from "react";
-import PhoneInput from "react-phone-input-2";
 import { useState } from "react";
 import { Mail, User, ArrowLeft, VenusAndMars, Key } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
+import { PhoneInput } from "@/components/ui/phone-input";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import z from "zod";
@@ -215,29 +215,7 @@ export default function RegisterPage() {
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <PhoneInput
-                          value={field.value}
-                          onChange={field.onChange}
-                          inputStyle={{
-                            width: "100%",
-                            backgroundColor: "transparent",
-                            border: "none",
-                          }}
-                          buttonStyle={{
-                            backgroundColor: "transparent",
-                            border: "none",
-                          }}
-                          containerStyle={{
-                            backgroundColor: "transparent",
-                            border: `1px solid ${
-                              theme.theme === "dark"
-                                ? "rgb(63, 63, 63)"
-                                : "rgb(230, 230, 230)"
-                            }`,
-                            borderRadius: 8,
-                          }}
-                          country={"vn"}
-                        />
+                        <PhoneInput defaultCountry="VN" placeholder="Enter a phone number" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -347,12 +325,12 @@ export default function RegisterPage() {
                         >
                           <span>
                             <span>{t("agree_prefix")}</span>
-                            <span onClick={() => {router.push("/article/terms-of-service")}} className="text-blue-600 hover:text-blue-800 font-medium underline-offset-2 hover:underline">
-                              {t("terms")}
+                            <span className="text-blue-600 hover:text-blue-800 font-medium underline-offset-2 hover:underline">
+                              <Link href={"/article/terms-of-service"} target="_blank">{t("terms")}</Link>
                             </span>
                             <span> {t("and")} </span>
-                            <span onClick={() => {router.push("/article/privacy-policy")}} className="text-blue-600 hover:text-blue-800 font-medium underline-offset-2 hover:underline">
-                              {t("privacy")}
+                            <span className="text-blue-600 hover:text-blue-800 font-medium underline-offset-2 hover:underline">
+                              <Link href={"/article/privacy-policy"} target="_blank">{t("privacy")}</Link>
                             </span>
                           </span>
                         </Label>
