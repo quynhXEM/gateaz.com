@@ -50,7 +50,7 @@ export default function RegisterPage() {
     username: z
       .string()
       .min(1, t("require_fill_field"))
-      .regex(/^[a-z0-9]+$/, t("username_alphanumeric")),
+      .regex(/^[a-zA-Z0-9]+$/, t("username_alphanumeric")),
     password: z.string().min(6, t("require_fill_field")),
     term: z.boolean().refine((data) => data, {
       message: t("require_agree"),
@@ -85,21 +85,20 @@ export default function RegisterPage() {
       language: locale,
     });
 
-    if (register?.errors) {
+    if (!register) {
       toast(
-        register?.errors[0].extensions?.field +
-          " đã có người dùng hoặc không hợp lệ !"
+        t("error_register_field", { field: "" })
       );
       setIsLoading(false);
     } else {
       const login_data = await loginHandle(values);
-      if (login_data?.access_token) {
+      if (login_data && (login_data as any).access_token) {
         setSession(login_data);
         const user_data = await getMeHandle();
         sessionStorage.setItem("user", JSON.stringify(user_data));
         router.push("/home");
       } else {
-        toast.error("Đăng nhập không thành công !");
+        toast.error(t("error_login_failed"));
         router.push("/login");
       }
     }
@@ -317,32 +316,30 @@ export default function RegisterPage() {
                   name="term"
                   render={({ field }) => (
                     <FormItem className="flex flex-col">
-                      <div className="flex gap-2">
+                      <div className="flex gap-2 cursor-pointer">
                         <FormControl>
                           <Checkbox
                             id="term"
                             checked={field.value}
                             onCheckedChange={field.onChange}
-                            className="mt-1 flex-shrink-0"
+                            className="mt-1 flex-shrink-0 cursor-pointer"
                             name={field.name}
                             onBlur={field.onBlur}
                             ref={field.ref}
                           />
                         </FormControl>
                         <Label
-                          htmlFor="terms"
+                          htmlFor="term"
                           className="text-sm text-primary leading-relaxed cursor-pointer"
                         >
-                          <span>
-                            <span>{t("agree_prefix")}</span>
-                            <span className="text-blue-600 hover:text-blue-800 font-medium underline-offset-2 hover:underline">
-                              <Link
-                                href={"/article/terms-of-service"}
-                                target="_blank"
-                              >
-                                {t("terms")}
-                              </Link>
-                            </span>
+                          <span>{t("agree_prefix")}</span>
+                          <span className="text-blue-600 hover:text-blue-800 font-medium underline-offset-2 hover:underline">
+                            <Link
+                              href={"/article/terms-of-service"}
+                              target="_blank"
+                            >
+                              {t("terms")}
+                            </Link>
                           </span>
                         </Label>
                       </div>

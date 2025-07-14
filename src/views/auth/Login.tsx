@@ -53,8 +53,8 @@ export default function LoginPage() {
   async function onSubmit(values: z.infer<typeof loginSchema>) {
     setIsLoading(true);
     const login_data = await loginHandle(values);
-    if (login_data?.errors) {
-      toast.error("Thông tin đăng nhập không hợp lệ !");
+    if (!login_data || !(login_data as any).access_token) {
+      toast.error(t("error_invalid_login"));
       setIsLoading(false);
     } else {
       setSession(login_data);
