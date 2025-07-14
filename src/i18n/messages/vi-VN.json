@@ -54,7 +54,9 @@
     "login_now": "Đăng nhập",
     "require_fill_field": "Vui lòng điền đầy đủ thông tin",
     "require_agree": "Đồng ý để tiếp tục",
-    "username_alphanumeric": "Username chỉ được chứa ký tự và số"
+    "username_alphanumeric": "Username chỉ được chứa ký tự và số",
+    "error_register_field": "{{field}} đã có người dùng hoặc không hợp lệ!",
+    "error_login_failed": "Đăng nhập không thành công!"
   },
   "login": {
       "title": "Đăng nhập",
@@ -73,6 +75,7 @@
       "logging_in": "Đang đăng nhập...",
       "no_account": "Chưa có tài khoản?",
       "register_now": "Đăng ký",
-      "or": "Hoặc"
+      "or": "Hoặc",
+      "error_invalid_login": "Thông tin đăng nhập không hợp lệ!"
     }
 }

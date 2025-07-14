@@ -54,7 +54,8 @@
     "login_now": "Login",
     "require_fill_field": "Please fill in all fields",
     "require_agree": "Agree to continue",
-    "username_alphanumeric": "Username can only contain letters and numbers"
+    "username_alphanumeric": "Username can only contain letters and numbers",
+    "error_register_field": "{{field}} is already taken or invalid!"
   },
   "login": {
       "title": "Login",
@@ -73,6 +74,7 @@
       "logging_in": "Logging in...",
       "no_account": "Don't have an account?",
       "register_now": "Register",
-      "or": "Or"
+      "or": "Or",
+      "error_invalid_login": "Invalid login information!"
     }
 }
