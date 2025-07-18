@@ -9,7 +9,7 @@ export function setSession({ access_token, refresh_token, expires_at }: any) {
   const session = {
     access_token,
     refresh_token,
-    expires_at,
+    expires_at: Date.now() + 850000,
   };
 
   const encrypted = encrypt(JSON.stringify(session));

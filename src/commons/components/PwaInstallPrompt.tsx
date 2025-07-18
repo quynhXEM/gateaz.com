@@ -1,13 +1,15 @@
 "use client";
 
+import { useAppMetaData } from "@/contexts/MetaDataContext";
 import "@khmyznikov/pwa-install";
 import { useEffect, useRef, useState } from "react";
 
 // Hằng số thời gian giữa các lần hiển thị lại (ms)
 const PROMPT_REPEAT_INTERVAL = 1000 * 60 * 60;
 
-export default function PwaInstallPrompt() {
+export default function PwaInstallPrompt({ metadata }: { metadata: any }) {
   const ref = useRef<any>(null);
+  const { name, icon } = metadata;
 
   useEffect(() => {
     const install = sessionStorage.getItem("pwa-hide-install");
@@ -28,9 +30,9 @@ export default function PwaInstallPrompt() {
   return (
     <pwa-install
       ref={ref}
-      name="Gate AZ"
+      name={name}
       manifest-url="/manifest.json"
-      icon="/icon-192x192.png"
+      icon={`${process.env.NEXT_PUBLIC_API_URL}/assets/${icon}`}
       description="Cài ứng dụng để có trải nghiệm tốt hơn"
       display-mode="standalone"
       lang="vi"

@@ -26,21 +26,21 @@ import ThemeToggle from "@/commons/components/ThemeToggle";
 import LocaleDropdown from "@/commons/components/LocaleDropdown";
 import { useTranslations } from "next-intl";
 
-const loginSchema = z.object({
-  email: z
-    .string()
-    .min(2, { message: "Username must be at least 2 characters." }),
-  password: z
-    .string()
-    .min(6, { message: "Username must be at least 6 characters." }),
-});
-
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const methods = useForm();
   const t = useTranslations("login");
+
+  const loginSchema = z.object({
+    email: z
+      .string()
+      .email({ message: t("error_invalid_email") }),
+    password: z
+      .string()
+      .min(6, { message: t("password_min_length") }),
+  });
 
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),

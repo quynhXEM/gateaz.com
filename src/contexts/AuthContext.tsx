@@ -33,18 +33,34 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
 
   useEffect(() => {
-    const sessionData = getSession();
-    const user = sessionStorage.getItem("user");
-    if (sessionData && user) {
-      setUser(JSON.parse(user));
-      setLoading(false);
-    } else {
-      if (pathname !== "/home") {
-        router.push("/login");
-      } else {
+    const getUser = async () => {
+      const sessionData = getSession();
+      if (sessionData) {
+        const user = await fetch(`/api/directus/request`, {
+          method: "POST",
+          body: JSON.stringify({
+            type: "readMe",
+          }),
+        })
+          .then((data) => data.json())
+          .then((data) => (data.ok ? data.result : null))
+          .catch((err) => null);
+
+        if (user) setUser(user);
+        else {
+          setUser(null);
+          router.push("/login");
+        }
         setLoading(false);
+      } else {
+        if (pathname !== "/home") {
+          router.push("/login");
+        } else {
+          setLoading(false);
+        }
       }
-    }
+    };
+    getUser();
   }, [pathname]);
 
   return (
