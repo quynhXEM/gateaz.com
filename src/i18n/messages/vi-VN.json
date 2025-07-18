@@ -76,6 +76,18 @@
       "no_account": "Chưa có tài khoản?",
       "register_now": "Đăng ký",
       "or": "Hoặc",
-      "error_invalid_login": "Thông tin đăng nhập không hợp lệ!"
+      "error_invalid_login": "Thông tin đăng nhập không hợp lệ!",
+      "error_invalid_email": "Email không hợp lệ!",
+      "password_min_length": "Mật khẩu phải có ít nhất 6 ký tự!"
+    },
+    "forgot": {
+      "title": "Quên mật khẩu",
+      "subtitle": "Nhập email để lấy lại mật khẩu",
+      "email": "Email",
+      "placeholder_email": "Nhập email",
+      "send_code": "Gửi mã",
+      "send_code_success": "Mã đã được gửi đến email của bạn",
+      "send_code_failed": "Gửi mã không thành công",
+      "error_invalid_email": "Email không hợp lệ!"
     }
 }

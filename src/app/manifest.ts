@@ -1,10 +1,12 @@
 import type { MetadataRoute } from "next";
+import { fetchAppMetadata } from "@/utils/metadata";
 
-export default function manifest(): MetadataRoute.Manifest {
+export default async function manifest(): Promise<MetadataRoute.Manifest> {
+  const { icon, name, short_name } = await fetchAppMetadata();
   return {
-    name: "Gate AZ",
-    short_name: "Gate AZ",
-    description: "Gate AZ",
+    name: name,
+    short_name: short_name,
+    description: name,
     start_url: "/vi-VN/home",
     display: "standalone",
     background_color: "#ffffff",
@@ -13,13 +15,8 @@ export default function manifest(): MetadataRoute.Manifest {
     scope: "/",
     icons: [
       {
-        src: "/icon-192x192.png",
+        src: `${process.env.NEXT_PUBLIC_API_URL}/assets/${icon}}`,
         sizes: "192x192",
-        type: "image/png",
-      },
-      {
-        src: "/icon-512x512.png",
-        sizes: "512x512",
         type: "image/png",
       },
     ],

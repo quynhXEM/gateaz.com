@@ -1,10 +1,5 @@
-import { UnderConstruction } from "@/commons/components/UnderConstruction";
+import FogotPasswordPage from "@/views/auth/FogotPassword";
 
-export default function FogotPasswordPage() {
-  return (
-    <UnderConstruction
-      title="Quên mật khẩu"
-      description="Chính sách bảo mật của Gate AZ."
-    />
-  );
+export default function Page() {
+  return <FogotPasswordPage/>
 } 

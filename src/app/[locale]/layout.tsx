@@ -1,6 +1,8 @@
 import PwaInstallPrompt from "@/commons/components/PwaInstallPrompt";
 import { ThemeProvider } from "@/components/theme-provider";
+import { MetaDataProvider } from "@/contexts/MetaDataContext";
 import { routing } from "@/i18n/routing";
+import { fetchAppMetadata } from "@/utils/metadata";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
@@ -24,7 +26,7 @@ const LocaleLayout = async ({
 
   // Providing all messages to the client side is the easiest way to get started
   const messages = await getMessages();
-
+  const metadata = await fetchAppMetadata();
   return (
     <NextIntlClientProvider messages={messages}>
       <ThemeProvider
@@ -33,9 +35,11 @@ const LocaleLayout = async ({
         enableSystem
         disableTransitionOnChange
       >
-        {children}
+        <MetaDataProvider initialMetadata={metadata}>
+          {children}
+        </MetaDataProvider>
         <ToastContainer />
-        <PwaInstallPrompt/>
+        <PwaInstallPrompt metadata={metadata}/>
       </ThemeProvider>
     </NextIntlClientProvider>
   );

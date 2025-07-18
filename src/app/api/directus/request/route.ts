@@ -8,7 +8,6 @@ import {
   updateItem,
   withToken,
   readMe,
-  registerUser,
 } from "@directus/sdk";
 import { cookies } from "next/headers";
 import { decrypt } from "@/utils/crypto";
@@ -16,11 +15,12 @@ import { decrypt } from "@/utils/crypto";
 const APP_TOKEN = process.env.APP_TOKEN || "";
 export const POST = async (request: Request) => {
   try {
-    const session = await getServerSession();
-    console.log(session);
+    let session = await getServerSession();
     if (!session) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
+
+    session = await refreshToken(session.refresh_token);
 
     const data = await request.json();
     const type = data?.type ?? "";
@@ -32,7 +32,6 @@ export const POST = async (request: Request) => {
     if (type) {
       let res;
 
-      // await refreshToken();
       const { access_token } = session;
 
       switch (type) {
@@ -121,5 +120,44 @@ export async function getServerSession() {
   } catch (err) {
     console.error("Failed to parse session from cookie", err);
     return null;
+  }
+}
+
+export async function refreshToken(session: any) {
+  console.log("Refresh token");
+
+  try {
+    if (!session) {
+      return null;
+    }
+    if (session.expires_at > Date.now()) {
+      return session;
+    }
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}auth/refresh`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ refresh_token: session?.refresh_token }),
+      }
+    )
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        const newSession = {
+          ...data.data,
+          expires_at: Date.now() + 850000,
+        };
+        return newSession;
+      })
+      .catch((err) => {
+        return null;
+      });
+    return response;
+  } catch (e) {
+    throw new Error("Invalid refresh token");
   }
 }

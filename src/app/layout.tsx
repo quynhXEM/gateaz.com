@@ -3,14 +3,20 @@ import type { Viewport } from "next";
 import { ReactNode } from "react";
 import "./globals.css";
 import 'react-phone-input-2/lib/style.css'
+import { fetchAppMetadata } from "@/utils/metadata";
 
-const RootLayout = ({
+const RootLayout = async ({
   children,
 }: Readonly<{
   children: ReactNode;
 }>) => {
+  const { icon, name } = await fetchAppMetadata();
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <link rel="icon" href={`${process.env.NEXT_PUBLIC_API_URL}/assets/${icon}?v=${Date.now()}`} />
+        <title>{name}</title>
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
