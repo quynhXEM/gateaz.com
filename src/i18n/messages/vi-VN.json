@@ -94,6 +94,10 @@
     "success_title": "Thành công",
     "error_title": "Lỗi",
     "reset_password_success": "Yêu cầu làm mới mật khẩu đã được gửi đến email của bạn.",
-    "reset_password_failed": "Yêu cầu làm mới mật khẩu không thành công. Thử lại sau!"
+    "reset_password_failed": "Yêu cầu làm mới mật khẩu không thành công. Thử lại sau!",
+    "development_feature": "Chức năng đang phát triển"
+  },
+  "scan" : {
+    "error_access_camera": "Không thể truy cập camera"
   }
 }

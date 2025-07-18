@@ -93,6 +93,10 @@
     "success_title": "Success",
     "error_title": "Error",
     "reset_password_success": "Request to reset password has been sent to your email.",
-    "reset_password_failed": "Request to reset password failed. Please try again later!"
+    "reset_password_failed": "Request to reset password failed. Please try again later!",
+    "development_feature": "This feature is under development"
+  },
+  "scan" : {
+    "error_access_camera": "Cannot access camera"
   }
 }

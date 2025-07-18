@@ -37,9 +37,11 @@ import { toast } from "react-toastify";
 import { setSession } from "@/utils/token";
 import LocaleDropdown from "@/commons/components/LocaleDropdown";
 import { useLocale, useTranslations } from "next-intl";
+import { useNotificationModal } from "@/contexts/NotificationModalContext";
 
 export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
+  const {showSuccess, showError} = useNotificationModal();
   const [isLoading, setIsLoading] = useState(false);
   const t = useTranslations("register");
   const registerSchema = z.object({
@@ -86,9 +88,11 @@ export default function RegisterPage() {
     });
 
     if (!register) {
-      toast(
-        t("error_register_field", { field: "" })
-      );
+      showError({
+        title: "error_title",
+        message: t("error_register_field", { field: "" }),
+        autoClose: true,
+      });
       setIsLoading(false);
     } else {
       const login_data = await loginHandle(values);
@@ -98,7 +102,11 @@ export default function RegisterPage() {
         sessionStorage.setItem("user", JSON.stringify(user_data));
         router.push("/home");
       } else {
-        toast.error(t("error_login_failed"));
+        showError({
+          title: "error_title",
+          message: t("error_login_failed"),
+          autoClose: true,
+        });
         router.push("/login");
       }
     }
