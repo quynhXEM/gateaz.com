@@ -59,35 +59,41 @@
     "error_login_failed": "Đăng nhập không thành công!"
   },
   "login": {
-      "title": "Đăng nhập",
-      "subtitle": "Mừng bạn trở lại!",
-      "login_with": "Đăng nhập với",
-      "login_with_google": "Đăng nhập với Google",
-      "login_with_apple": "Đăng nhập với Apple",
-      "login_with_facebook": "Đăng nhập với Facebook",
-      "or_login_with_email": "hoặc đăng nhập với email",
-      "email": "Email",
-      "password": "Mật khẩu",
-      "placeholder_email": "Nhập email",
-      "placeholder_password": "Nhập mật khẩu",
-      "forgot_password": "Quên mật khẩu?",
-      "login": "Đăng nhập",
-      "logging_in": "Đang đăng nhập...",
-      "no_account": "Chưa có tài khoản?",
-      "register_now": "Đăng ký",
-      "or": "Hoặc",
-      "error_invalid_login": "Thông tin đăng nhập không hợp lệ!",
-      "error_invalid_email": "Email không hợp lệ!",
-      "password_min_length": "Mật khẩu phải có ít nhất 6 ký tự!"
-    },
-    "forgot": {
-      "title": "Quên mật khẩu",
-      "subtitle": "Nhập email để lấy lại mật khẩu",
-      "email": "Email",
-      "placeholder_email": "Nhập email",
-      "send_code": "Gửi mã",
-      "send_code_success": "Mã đã được gửi đến email của bạn",
-      "send_code_failed": "Gửi mã không thành công",
-      "error_invalid_email": "Email không hợp lệ!"
-    }
+    "title": "Đăng nhập",
+    "subtitle": "Mừng bạn trở lại!",
+    "login_with": "Đăng nhập với",
+    "login_with_google": "Đăng nhập với Google",
+    "login_with_apple": "Đăng nhập với Apple",
+    "login_with_facebook": "Đăng nhập với Facebook",
+    "or_login_with_email": "hoặc đăng nhập với email",
+    "email": "Email",
+    "password": "Mật khẩu",
+    "placeholder_email": "Nhập email",
+    "placeholder_password": "Nhập mật khẩu",
+    "forgot_password": "Quên mật khẩu?",
+    "login": "Đăng nhập",
+    "logging_in": "Đang đăng nhập...",
+    "no_account": "Chưa có tài khoản?",
+    "register_now": "Đăng ký",
+    "or": "Hoặc",
+    "error_invalid_login": "Thông tin đăng nhập không hợp lệ!",
+    "error_invalid_email": "Email không hợp lệ!",
+    "password_min_length": "Mật khẩu phải có ít nhất 6 ký tự!"
+  },
+  "forgot": {
+    "title": "Quên mật khẩu",
+    "subtitle": "Nhập email để lấy lại mật khẩu",
+    "email": "Email",
+    "placeholder_email": "Nhập email",
+    "send_code": "Gửi mã",
+    "send_code_success": "Mã đã được gửi đến email của bạn",
+    "send_code_failed": "Gửi mã không thành công",
+    "error_invalid_email": "Email không hợp lệ!"
+  },
+  "noti": {
+    "success_title": "Thành công",
+    "error_title": "Lỗi",
+    "reset_password_success": "Yêu cầu làm mới mật khẩu đã được gửi đến email của bạn.",
+    "reset_password_failed": "Yêu cầu làm mới mật khẩu không thành công. Thử lại sau!"
+  }
 }

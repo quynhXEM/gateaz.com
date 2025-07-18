@@ -88,5 +88,11 @@
     "send_code_success": "Code has been sent to your email",
     "send_code_failed": "Code sent failed",
     "error_invalid_email": "Invalid email!"
+  },
+  "noti": {
+    "success_title": "Success",
+    "error_title": "Error",
+    "reset_password_success": "Request to reset password has been sent to your email.",
+    "reset_password_failed": "Request to reset password failed. Please try again later!"
   }
 }

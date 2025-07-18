@@ -8,6 +8,7 @@ import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { ReactNode } from "react";
 import { ToastContainer } from "react-toastify";
+import { NotificationModalProvider } from "@/contexts/NotificationModalContext";
 
 const LocaleLayout = async ({
   children,
@@ -36,7 +37,9 @@ const LocaleLayout = async ({
         disableTransitionOnChange
       >
         <MetaDataProvider initialMetadata={metadata}>
-          {children}
+          <NotificationModalProvider>
+            {children}
+          </NotificationModalProvider>
         </MetaDataProvider>
         <ToastContainer />
         <PwaInstallPrompt metadata={metadata}/>

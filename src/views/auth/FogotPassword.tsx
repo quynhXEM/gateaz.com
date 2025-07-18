@@ -21,12 +21,13 @@ import {
 import ThemeToggle from "@/commons/components/ThemeToggle";
 import LocaleDropdown from "@/commons/components/LocaleDropdown";
 import { useTranslations } from "next-intl";
-import { toast } from "react-toastify";
+import { useNotificationModal } from "@/contexts/NotificationModalContext";
 
 export default function FogotPasswordPage() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const methods = useForm();
+  const { showSuccess, showError } = useNotificationModal();
   const t = useTranslations("forgot");
 
   const loginSchema = z.object({
@@ -42,16 +43,24 @@ export default function FogotPasswordPage() {
 
   async function onSubmit(values: z.infer<typeof loginSchema>) {
     setIsLoading(true);
-    await fetch("/api/auth/reset", {
+    const request = await fetch("/api/auth/reset", {
       method: "POST",
       body: JSON.stringify(values),
-    }).then(data => {
-        router.push("/login");
-    })
-    .catch(err => {
-        toast.error(t("error_invalid_login"));
-      setIsLoading(false);
-    })
+    });
+    if (request.ok) {
+      showSuccess({
+        title: "success_title",
+        message: "reset_password_success",
+        autoClose: true,
+      });
+      router.push("/login");
+    } else
+      showError({
+        title: "error_title",
+        message: "reset_password_failed",
+        autoClose: true,
+      });
+    setIsLoading(false);
   }
 
   return (

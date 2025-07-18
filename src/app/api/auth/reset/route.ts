@@ -5,18 +5,26 @@ import { NextResponse } from "next/server";
 export const POST = async (req: any) => {
   const { email } = await req.json();
 
-  const resault = await directus
-    .request(passwordRequest(email))
-    .then((data) => {
-      console.log(data);
-      return data;
-    })
-    .catch((err) => {
-      console.log(err);
-      return null;
-    });
+  const myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+
+  const raw = JSON.stringify({
+    email: email,
+  });
+
+  const requestOptions: RequestInit = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow",
+  };
+
+  const resault = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/auth/password/request`,
+    requestOptions
+  )
 
   if (resault?.status == 204) {
-    return NextResponse.json(resault, { status: 200 });
-  } else return NextResponse.json(resault, { status: 400 });
+    return NextResponse.json({ ok: true }, { status: 200 });
+  } else return NextResponse.json({ ok: false }, { status: 400 });
 };
