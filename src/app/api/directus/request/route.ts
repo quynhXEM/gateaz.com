@@ -10,17 +10,16 @@ import {
   readMe,
 } from "@directus/sdk";
 import { cookies } from "next/headers";
-import { decrypt } from "@/utils/crypto";
+import { decrypt, encrypt } from "@/utils/crypto";
 
 const APP_TOKEN = process.env.APP_TOKEN || "";
 export const POST = async (request: Request) => {
   try {
     let session = await getServerSession();
+    session = await refreshToken(session);
     if (!session) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
-
-    session = await refreshToken(session.refresh_token);
 
     const data = await request.json();
     const type = data?.type ?? "";
@@ -103,38 +102,38 @@ export const POST = async (request: Request) => {
       );
     }
     return NextResponse.json({
-      error: "DIRECTUS_REQUEST_ERROR",
+      error: error.toString(),
     });
   }
 };
 
 export async function getServerSession() {
-  const cookieStore = await cookies(); // ✅ đúng
+  const cookieStore = await cookies();
   const encrypted = cookieStore.get("session")?.value;
 
   if (!encrypted) return null;
 
   try {
-    const decrypted = decrypt(encrypted);
-    return JSON.parse(decrypted);
+    const decrypted = JSON.parse(decrypt(encrypted));
+    return decrypted;
   } catch (err) {
     console.error("Failed to parse session from cookie", err);
     return null;
   }
 }
 
-export async function refreshToken(session: any) {
-  console.log("Refresh token");
+export async function setSession(session: any) {
+  const cookieStore = await cookies();
+  cookieStore.set("session", encrypt(JSON.stringify(session)));
+}
 
+export async function refreshToken(session: any) {
   try {
-    if (!session) {
-      return null;
-    }
-    if (session.expires_at > Date.now()) {
-      return session;
-    }
+    if (!session) return null;
+    if (session.expires_at > Date.now()) return session;
+
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}auth/refresh`,
+      `${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`,
       {
         method: "POST",
         headers: {
@@ -143,19 +142,15 @@ export async function refreshToken(session: any) {
         body: JSON.stringify({ refresh_token: session?.refresh_token }),
       }
     )
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        const newSession = {
-          ...data.data,
-          expires_at: Date.now() + 850000,
-        };
-        return newSession;
-      })
-      .catch((err) => {
-        return null;
-      });
+      .then((res) => res.json())
+      .then((data) => ({
+        ...data.data,
+        expires_at: Date.now() + 850000,
+      }))
+      .catch((err) => null);
+    if (response) {
+      await setSession(response);
+    }
     return response;
   } catch (e) {
     throw new Error("Invalid refresh token");
