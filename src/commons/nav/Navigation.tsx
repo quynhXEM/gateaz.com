@@ -15,8 +15,8 @@ import { cn } from "@/libs/utils";
 import LocaleDropdown from "../components/LocaleDropdown";
 import ThemeToggle from "../components/ThemeToggle";
 import NavContent from "./NavContent";
-import BottomNav from "./BottomNav";
 import AuthButton from "../components/AuthButton";
+import { BottomNav } from "./BottomNav";
 
 export function Navigation({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = useState(false);
