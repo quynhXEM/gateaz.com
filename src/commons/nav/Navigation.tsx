@@ -21,7 +21,7 @@ import { BottomNav } from "./BottomNav";
 export function Navigation({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const [showFloatingMenu, setShowFloatingMenu] = useState(false);
+  const [showFloatingMenu, setShowFloatingMenu] = useState(true);
 
   return (
     <div className="min-h-screen bg-background pt-16">

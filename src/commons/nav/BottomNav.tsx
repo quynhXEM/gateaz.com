@@ -62,7 +62,9 @@ export function BottomNav({ showFloatingMenu, setShowFloatingMenu }: BottomNavig
 
   return (
     <>
-      {/* Add Menu Items */}
+      {showFloatingMenu && (
+        <div className="fixed bottom-0 left-1/2 transform -translate-x-1/2 bg-red-500 z-0"></div>
+      )}
       {showFloatingMenu && (
         <div
           className="fixed bottom-0 left-1/2 transform -translate-x-1/2 z-0"
