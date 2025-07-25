@@ -17,16 +17,17 @@ import ThemeToggle from "../components/ThemeToggle";
 import NavContent from "./NavContent";
 import AuthButton from "../components/AuthButton";
 import { BottomNav } from "./BottomNav";
+import { useAppMetaData } from "@/contexts/MetaDataContext";
 
 export function Navigation({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const [showFloatingMenu, setShowFloatingMenu] = useState(true);
-
+  const [showFloatingMenu, setShowFloatingMenu] = useState(false);
+  const {name} = useAppMetaData()
   return (
     <div className="min-h-screen bg-background pt-16">
       {/* Global Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 border-b bg-card p-4 flex items-center">
+      <header className="fixed top-0 left-0 right-0 z-50 border-b bg-card px-4 py-2 lg:py-4 flex items-center">
         <Sheet open={open} onOpenChange={setOpen}>
           <SheetTrigger asChild>
             <Button
@@ -54,7 +55,7 @@ export function Navigation({ children }: { children: React.ReactNode }) {
         >
           <Menu className="h-6 w-6" />
         </Button>
-        <h1 className="text-xl font-bold">Wallet App</h1>
+        <h1 className="text-xl font-bold">{name}</h1>
         <div className="flex ml-auto gap-2">
           <LocaleDropdown />
           <ThemeToggle />
