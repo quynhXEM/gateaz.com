@@ -99,6 +99,28 @@ export function BottomNav({
     });
   };
 
+  // Thêm các hàm xử lý touch
+  const handleTouchStart = (e: React.TouchEvent) => {
+    dragging.current = true;
+    startX.current = e.touches[0].clientX;
+    startRotation.current = rotation;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    e.preventDefault(); // Ngăn trình duyệt back/forward
+    if (!dragging.current) return;
+    const deltaX = e.touches[0].clientX - startX.current;
+    setRotation(startRotation.current + deltaX);
+  };
+
+  const handleTouchEnd = () => {
+    dragging.current = false;
+    setRotation((prev) => {
+      const snapped = Math.round(prev / snapAngle) * snapAngle;
+      return snapped;
+    });
+  };
+
   return (
     <>
       <div
@@ -109,6 +131,9 @@ export function BottomNav({
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
         onPointerLeave={handlePointerUp}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
       >
         <div
           className={`relative w-[200px] h-[200px] left-1/2 -translate-x-1/2 rounded-full`}
@@ -117,6 +142,7 @@ export function BottomNav({
             transition: dragging.current
               ? "none"
               : "transform 0.3s cubic-bezier(.4,2,.6,1)",
+            touchAction: "none",
           }}
         >
           {addMenuItems.map((item, index) => {
