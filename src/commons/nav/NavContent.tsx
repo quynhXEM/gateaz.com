@@ -115,7 +115,7 @@ export default function NavContent({
                       ? "justify-center p-3 mx-1"
                       : "space-x-3 px-3 py-2",
                     isActive
-                      ? "bg-primary text-primary-foreground"
+                      ? "bg-gradient-to-l from-white dark:from-transparent to-sky-500 to-40% text-primary-foreground"
                       : "hover:bg-accent hover:text-accent-foreground"
                   )}
                   title={collapsed ? t(item.label) : undefined}
