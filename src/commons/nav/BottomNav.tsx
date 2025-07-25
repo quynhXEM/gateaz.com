@@ -102,7 +102,9 @@ export function BottomNav({
   return (
     <>
       <div
-        className={`fixed bottom-[-50px] left-0 right-0 duration-500 transform z-0 ${!showFloatingMenu && "pointer-events-none"}`}
+        className={`fixed bottom-[-50px] left-0 right-0 duration-500 transform z-0 ${
+          !showFloatingMenu && "pointer-events-none"
+        }`}
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}

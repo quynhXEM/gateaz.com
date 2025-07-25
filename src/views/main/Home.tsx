@@ -1,9 +1,4 @@
 "use client";
-
-import { useState, useEffect } from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import {
   TrendingUp,
   TrendingDown,
@@ -35,7 +30,6 @@ import {
 } from "lucide-react";
 import { useTheme } from "next-themes";
 import BalanceCard from "./BalanceCard";
-
 
 const services = [
   // Dịch vụ chính
@@ -367,7 +361,10 @@ export default function HomePage() {
             <h2 className="text-2xl font-semibold mb-4">Công cụ AI</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {tools.map((item, index) => (
-                <div key={index} className="hover:shadow-md transition-shadow cursor-pointer p-0">
+                <div
+                  key={index}
+                  className="hover:shadow-md transition-shadow cursor-pointer p-0"
+                >
                   <div className="p-2">
                     <div className="flex items-center space-x-4">
                       <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center">
