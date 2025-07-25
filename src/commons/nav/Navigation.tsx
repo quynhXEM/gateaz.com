@@ -15,13 +15,13 @@ import { cn } from "@/libs/utils";
 import LocaleDropdown from "../components/LocaleDropdown";
 import ThemeToggle from "../components/ThemeToggle";
 import NavContent from "./NavContent";
-import BottomNav from "./BottomNav";
 import AuthButton from "../components/AuthButton";
+import { BottomNav } from "./BottomNav";
 
 export function Navigation({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const [showFloatingMenu, setShowFloatingMenu] = useState(false);
+  const [showFloatingMenu, setShowFloatingMenu] = useState(true);
 
   return (
     <div className="min-h-screen bg-background pt-16">
@@ -62,7 +62,7 @@ export function Navigation({ children }: { children: React.ReactNode }) {
         </div>
       </header>
       {/* Desktop Layout */}
-      <div className="hidden lg:flex">
+      <div className="hidden md:flex">
         <div
           className={cn(
             "border-r bg-card fixed h-full transition-all duration-300",
@@ -98,14 +98,14 @@ export function Navigation({ children }: { children: React.ReactNode }) {
             sidebarCollapsed ? "ml-16" : "ml-64"
           )}
         >
-          <main className="p-6">{children}</main>
+          <main className="">{children}</main>
         </div>
       </div>
 
       {/* Mobile Layout */}
-      <div className="lg:hidden overflow-x-hidden">
+      <div className="md:hidden overflow-x-hidden">
         {/* Mobile Content */}
-        <main className="p-4 pb-24 overflow-x-hidden">{children}</main>
+        <main className="pb-24 overflow-x-hidden">{children}</main>
 
         {/* Mobile Footer Navigation */}
         <BottomNav

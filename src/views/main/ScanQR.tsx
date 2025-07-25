@@ -28,14 +28,18 @@ import {
 import { Scanner } from "@yudiel/react-qr-scanner";
 import { toast } from "react-toastify";
 import { BrowserQRCodeReader } from "@zxing/browser";
+import { useNotificationModal } from "@/contexts/NotificationModalContext";
+import { useTranslations } from "next-intl";
 
 export default function ScanQRPage() {
+  const t = useTranslations();
   const [isScanning, setIsScanning] = useState(true);
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);
   const [scanResult, setScanResult] = useState<any | null>(null);
   const [flashEnabled, setFlashEnabled] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
+  const { showError } = useNotificationModal()
 
   // Request camera permission
   const requestCameraPermission = async () => {
@@ -55,7 +59,11 @@ export default function ScanQRPage() {
       setIsScanning(true);
     } catch (error) {
       setHasPermission(false);
-      toast.info("Không thể truy cập camera");
+      showError({
+        title: "error_title",
+        message: t("error_access_camera"),
+        autoClose: true,
+      });
     }
   };
 
@@ -66,23 +74,6 @@ export default function ScanQRPage() {
       streamRef.current = null;
     }
     setIsScanning(false);
-  };
-
-  // Toggle flashlight
-  const toggleFlash = async () => {
-    if (streamRef.current) {
-      const track = streamRef.current.getVideoTracks()[0];
-      if (track && "torch" in track.getCapabilities()) {
-        try {
-          await track.applyConstraints({
-            advanced: [{ torch: !flashEnabled } as any],
-          });
-          setFlashEnabled(!flashEnabled);
-        } catch (error) {
-          toast("Không thể bật đèn flash");
-        }
-      }
-    }
   };
 
   // Handle file upload for QR code image
@@ -178,20 +169,6 @@ export default function ScanQRPage() {
                     </div>
                   </div>
                   {/* Controls overlay */}
-                  <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2">
-                    <Button
-                      variant="secondary"
-                      size="icon"
-                      onClick={toggleFlash}
-                      className="bg-black/50 hover:bg-black/70"
-                    >
-                      <Flashlight
-                        className={`h-4 w-4 ${
-                          flashEnabled ? "text-yellow-400" : "text-white"
-                        }`}
-                      />
-                    </Button>
-                  </div>
                 </div>
               )}
 

@@ -29,6 +29,7 @@ export default function FogotPasswordPage() {
   const methods = useForm();
   const { showSuccess, showError } = useNotificationModal();
   const t = useTranslations("forgot");
+  const t_noti = useTranslations("noti");
 
   const loginSchema = z.object({
     email: z.string().email(t("error_invalid_email")),
@@ -50,14 +51,14 @@ export default function FogotPasswordPage() {
     if (request.ok) {
       showSuccess({
         title: "success_title",
-        message: "reset_password_success",
+        message: t_noti("reset_password_success"),
         autoClose: true,
       });
       router.push("/login");
     } else
       showError({
         title: "error_title",
-        message: "reset_password_failed",
+        message: t_noti("reset_password_failed"),
         autoClose: true,
       });
     setIsLoading(false);

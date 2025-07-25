@@ -93,7 +93,7 @@ export function NotificationModal({
         {/* Content */}
         <div className="px-6 pb-6">
           <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-            {t(message)}
+            {message}
           </p>
         </div>
 

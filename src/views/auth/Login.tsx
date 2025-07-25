@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { toast } from "react-toastify";
 import { z } from "zod";
 import { getMeHandle, loginHandle } from "@/services/AuthService";
 import { FormProvider, useForm } from "react-hook-form";
@@ -25,6 +24,7 @@ import { setSession } from "@/utils/token";
 import ThemeToggle from "@/commons/components/ThemeToggle";
 import LocaleDropdown from "@/commons/components/LocaleDropdown";
 import { useTranslations } from "next-intl";
+import { useNotificationModal } from "@/contexts/NotificationModalContext";
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -32,6 +32,8 @@ export default function LoginPage() {
   const router = useRouter();
   const methods = useForm();
   const t = useTranslations("login");
+  const t_noti = useTranslations("noti");
+  const {showSuccess, showError} = useNotificationModal()
 
   const loginSchema = z.object({
     email: z
@@ -54,7 +56,11 @@ export default function LoginPage() {
     setIsLoading(true);
     const login_data = await loginHandle(values);
     if (!login_data || !(login_data as any).access_token) {
-      toast.error(t("error_invalid_login"));
+      showError({
+        title: "error_title",
+        message: t("error_invalid_login"),
+        autoClose: true,
+      });
       setIsLoading(false);
     } else {
       setSession(login_data);
@@ -65,7 +71,11 @@ export default function LoginPage() {
   }
 
   const handleSocialLogin = (provider: string) => {
-    toast("Chức năng đang phát triển");
+    showError({
+      title: "error_title",
+      message: t_noti("development_feature"),
+      autoClose: true,
+    });
   };
 
   return (
