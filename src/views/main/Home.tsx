@@ -30,6 +30,8 @@ import {
 } from "lucide-react";
 import { useTheme } from "next-themes";
 import BalanceCard from "./BalanceCard";
+import { Card } from "@/components/ui/card";
+import { useAuth } from "@/contexts/AuthContext";
 
 const services = [
   // Dịch vụ chính
@@ -165,7 +167,7 @@ const siteConfig = {
 
 export default function HomePage() {
   const theme = useTheme();
-
+  const { user } = useAuth();
   return (
     <div className="min-h-screen bg-background">
       <main className="relative pb-10 md:pb-0">
@@ -174,11 +176,15 @@ export default function HomePage() {
           {/* Top 40% - Image background */}
           <div className="h-[30vh] relative overflow-hidden">
             <img
-              src="https://cdn.pixabay.com/photo/2025/07/12/16/34/umbrella-9710962_1280.jpg"
+              src="https://cdn.pixabay.com/photo/2017/12/23/02/52/technique-3034622_640.jpg"
               alt="E-wallet background"
               className="w-full h-full object-cover"
             />
-            <div className="absolute " />{" "}
+            <div className="absolute top-4 left-4 ">
+              <h3 className=" font-bold text-nowrap text-white shadow-lg bg-black/50 rounded-lg p-2">
+                Xin chào, {user?.full_name}
+              </h3>
+            </div>
             {/* Optional overlay for better text readability */}
             <div className="absolute bottom-0 left-0 right-0 h-16">
               <svg
@@ -188,7 +194,7 @@ export default function HomePage() {
               >
                 <path
                   d="M0,60 C300,120 900,0 1200,60 L1200,120 L0,120 Z"
-                  fill={theme.theme === "dark" ? "black" : "white"}
+                  fill={"white"}
                 />
               </svg>
             </div>
@@ -326,15 +332,15 @@ export default function HomePage() {
         </div>
         <div className="relative">
           {/* Spacer to push content below image */}
-          <div className="h-[25vh]" />
+          <div className="h-[22vh]" />
           <div className="px-4">
             <div>
               <h2 className="text-2xl font-semibold mb-4">Dịch vụ</h2>
-              <div className="grid grid-cols-3 md:grid-cols-4 gap-3">
+              <div className="gap-3 grid grid-cols-4 md:grid-cols-5 lg:grid-cols-6">
                 {services.map((service) => {
                   const Icon = service.icon;
                   return (
-                    <div
+                    <Card
                       key={service.name}
                       className="hover:shadow-md transition-shadow cursor-pointer p-0"
                     >
@@ -351,7 +357,7 @@ export default function HomePage() {
                           {service.description}
                         </p>
                       </div>
-                    </div>
+                    </Card>
                   );
                 })}
               </div>
@@ -361,7 +367,7 @@ export default function HomePage() {
             <h2 className="text-2xl font-semibold mb-4">Công cụ AI</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {tools.map((item, index) => (
-                <div
+                <Card
                   key={index}
                   className="hover:shadow-md transition-shadow cursor-pointer p-0"
                 >
@@ -371,7 +377,7 @@ export default function HomePage() {
                         <item.icon className={`h-6 w-6 ${item.color}`} />
                       </div>
                       <div>
-                        <h3 className="font-semibold text-blue-600 mb-1">
+                        <h3 className="font-semibold text-primary mb-1">
                           {item.name}
                         </h3>
                         <p className="text-sm text-muted-foreground">
@@ -380,7 +386,7 @@ export default function HomePage() {
                       </div>
                     </div>
                   </div>
-                </div>
+                </Card>
               ))}
             </div>
           </div>

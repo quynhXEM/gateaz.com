@@ -27,7 +27,7 @@ export function Navigation({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen bg-background pt-16">
       {/* Global Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 border-b bg-card px-4 py-2 lg:py-4 flex items-center">
+      <header className="fixed top-0 left-0 right-0 z-50 border-b bg-card p-4 flex items-center">
         <Sheet open={open} onOpenChange={setOpen}>
           <SheetTrigger asChild>
             <Button
